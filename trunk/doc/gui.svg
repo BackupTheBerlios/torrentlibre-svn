@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   x="0.0000000"
+   y="0.0000000"
+   width="637.50000"
+   height="462.50000"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     id="layer1">
+    <rect
+       width="609.12201"
+       height="440.42651"
+       rx="10.000000"
+       ry="10.000000"
+       x="15.558395"
+       y="10.483803"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect1306" />
+    <rect
+       width="130.63486"
+       height="440.45187"
+       rx="10.000000"
+       ry="10.000000"
+       x="15.186588"
+       y="10.440491"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.1423018;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect1308" />
+    <rect
+       width="131.42857"
+       height="16.784126"
+       rx="10.000000"
+       ry="10.000000"
+       x="14.642857"
+       y="10.077301"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.69519705;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2038" />
+    <text
+       x="32.112946"
+       y="27.227324"
+       transform="scale(1.233617,0.810624)"
+       style="font-size:15.258470px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2040"
+       xml:space="preserve"><tspan
+         x="32.112946"
+         y="27.227324"
+         id="tspan2042">Musique</tspan></text>
+    <rect
+       width="131.42857"
+       height="17.469538"
+       rx="10.000000"
+       ry="10.000000"
+       x="14.642857"
+       y="416.19879"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.70924979;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2044" />
+    <text
+       x="45.2756"
+       y="475.79761"
+       transform="scale(1.109526,0.901286)"
+       style="font-size:15.227320px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2046"
+       xml:space="preserve"><tspan
+         x="45.2756"
+         y="475.79761"
+         id="tspan2048">Images</tspan></text>
+    <rect
+       width="131.42857"
+       height="17.458223"
+       rx="10.000000"
+       ry="10.000000"
+       x="14.642857"
+       y="433.49017"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.70902008;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2050" />
+    <text
+       x="50.75145"
+       y="495.93906"
+       transform="scale(1.112941,0.898521)"
+       style="font-size:14.167883px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2052"
+       xml:space="preserve"><tspan
+         x="50.75145"
+         y="495.93906"
+         id="tspan2054">Textes</tspan></text>
+    <path
+       d="M 67.857146 308.79074 A 3.2142856 3.2142856 0 1 1  61.428575,308.79074 A 3.2142856 3.2142856 0 1 1  67.857146 308.79074 z"
+       transform="matrix(1.379039,0.000000,0.000000,1.333042,-66.28793,-374.0901)"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="path2056" />
+    <text
+       x="31.428566"
+       y="42.005043"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2058"
+       xml:space="preserve"><tspan
+         x="31.428566"
+         y="42.005043"
+         id="tspan2060">Both</tspan></text>
+    <path
+       d="M 72.857140,324.50505 L 70.318794,323.11303 L 67.733052,324.41490 L 68.272553,321.57063 L 66.235364,319.51374 L 69.107140,319.14791 L 70.433830,316.57481 L 71.669184,319.19299 L 74.526313,319.65962 L 72.418027,321.64357 L 72.857140,324.50505 z "
+       transform="translate(-40.00000,-270.0000)"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="path2062" />
+    <text
+       x="40.595219"
+       y="50.793335"
+       transform="scale(0.927987,1.077601)"
+       style="font-size:10.108459px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2064"
+       xml:space="preserve"><tspan
+         x="40.595219"
+         y="50.793335"
+         id="tspan2066">Simple exercice</tspan></text>
+    <path
+       d="M 72.857140,324.50505 L 70.318794,323.11303 L 67.733052,324.41490 L 68.272553,321.57063 L 66.235364,319.51374 L 69.107140,319.14791 L 70.433830,316.57481 L 71.669184,319.19299 L 74.526313,319.65962 L 72.418027,321.64357 L 72.857140,324.50505 z "
+       transform="translate(-40.01543,-257.9421)"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="path2076" />
+    <text
+       x="40.578289"
+       y="61.981865"
+       transform="scale(0.927987,1.077601)"
+       style="font-size:10.108459px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2078"
+       xml:space="preserve"><tspan
+         x="40.578289"
+         y="61.981865"
+         id="tspan2080">En attendant d'aller...</tspan></text>
+    <rect
+       width="9.2857141"
+       height="2.5000000"
+       rx="10.000000"
+       ry="2.5000000"
+       x="33.214287"
+       y="74.505043"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2082" />
+    <text
+       x="44.668835"
+       y="79.296135"
+       transform="scale(1.014954,0.985266)"
+       style="font-size:8.4324331px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2084"
+       xml:space="preserve"><tspan
+         x="44.668835"
+         y="79.296135"
+         id="tspan2086">En attendant d'aller ...</tspan></text>
+    <rect
+       width="9.2857141"
+       height="2.5000000"
+       rx="10.000000"
+       ry="2.5000000"
+       x="33.284889"
+       y="84.335854"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2088" />
+    <text
+       x="44.737911"
+       y="89.271317"
+       transform="scale(1.014954,0.985266)"
+       style="font-size:8.4323940px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2090"
+       xml:space="preserve"><tspan
+         x="44.737911"
+         y="89.271317"
+         id="tspan2092">Axel</tspan></text>
+    <rect
+       width="9.2857141"
+       height="2.5000000"
+       rx="10.000000"
+       ry="2.5000000"
+       x="33.213448"
+       y="94.550140"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0779999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2094" />
+    <rect
+       width="49.642857"
+       height="9.4642859"
+       x="45.000000"
+       y="90.576477"
+       style="fill:#81a3ff;fill-opacity:0.46153846;fill-rule:evenodd;stroke:none;stroke-width:0.43599999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2828" />
+    <rect
+       width="97.857140"
+       height="9.5231609"
+       x="45.000000"
+       y="90.636322"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:0.43599999;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect2100" />
+    <text
+       x="44.667423"
+       y="99.638115"
+       transform="scale(1.014954,0.985266)"
+       style="font-size:8.4323912px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text2096"
+       xml:space="preserve"><tspan
+         x="44.667423"
+         y="99.638115"
+         id="tspan2098">Une charogne</tspan></text>
+    <rect
+       width="478.53467"
+       height="34.770222"
+       rx="10.000000"
+       ry="10.000000"
+       x="145.73267"
+       y="10.548492"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:0.78025573;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect3556" />
+    <rect
+       width="103.57143"
+       height="17.142857"
+       rx="10.000000"
+       ry="10.000000"
+       x="150.71428"
+       y="20.076477"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0360000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect4284" />
+    <text
+       x="166.42857"
+       y="32.21933"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text4286"
+       xml:space="preserve"><tspan
+         x="166.42857"
+         y="32.21933"
+         id="tspan4288">Rechercher</tspan></text>
+    <rect
+       width="103.57143"
+       height="17.142857"
+       rx="10.000000"
+       ry="10.000000"
+       x="272.64285"
+       y="20.076447"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0360000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect4290" />
+    <text
+       x="300.50003"
+       y="32.219299"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text4292"
+       xml:space="preserve"><tspan
+         x="300.50003"
+         y="32.219299"
+         id="tspan4294">Ecouter</tspan></text>
+    <rect
+       width="103.57143"
+       height="17.142857"
+       rx="10.000000"
+       ry="10.000000"
+       x="391.78571"
+       y="20.076447"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0360000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect4296" />
+    <text
+       x="417.5"
+       y="32.219299"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text4298"
+       xml:space="preserve"><tspan
+         x="417.5"
+         y="32.219299"
+         id="tspan4300">Regarder</tspan></text>
+    <rect
+       width="103.57143"
+       height="17.142857"
+       rx="10.000000"
+       ry="10.000000"
+       x="513.78571"
+       y="20.790741"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0360000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect4302" />
+    <text
+       x="553.07141"
+       y="33.647888"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text4304"
+       xml:space="preserve"><tspan
+         x="553.07141"
+         y="33.647888"
+         id="tspan4306">Lire</tspan></text>
+    <rect
+       width="478.54590"
+       height="75.345100"
+       rx="10.000000"
+       ry="10.000000"
+       x="145.72705"
+       y="45.261047"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.2193853;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect4308" />
+    <rect
+       width="478.54590"
+       height="329.12314"
+       rx="10.000000"
+       ry="10.000000"
+       x="145.72705"
+       y="120.87204"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0032613;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect4310" />
+    <rect
+       width="378.95160"
+       height="16.428572"
+       rx="10.000000"
+       ry="10.000000"
+       x="235.52420"
+       y="50.790741"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.4312187;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect5038" />
+    <text
+       x="150.71428"
+       y="62.933617"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text5040"
+       xml:space="preserve"><tspan
+         x="150.71428"
+         y="62.933617"
+         id="tspan5042">Rechercher :</tspan></text>
+    <text
+       x="152.42857"
+       y="82.933617"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text5044"
+       xml:space="preserve"><tspan
+         x="152.42857"
+         y="82.933617"
+         id="tspan5046">sur : </tspan></text>
+    <path
+       d="M 241.42857 397.71933 A 4.2857141 3.9285715 0 1 1  232.85714,397.71933 A 4.2857141 3.9285715 0 1 1  241.42857 397.71933 z"
+       transform="translate(-42.85714,-317.2857)"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="path5052" />
+    <text
+       x="201.42857"
+       y="83.647888"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text5054"
+       xml:space="preserve"><tspan
+         x="201.42857"
+         y="83.647888"
+         id="tspan5056">mon ordinateur</tspan></text>
+    <path
+       d="M 241.42857 397.71933 A 4.2857141 3.9285715 0 1 1  232.85714,397.71933 A 4.2857141 3.9285715 0 1 1  241.42857 397.71933 z"
+       transform="translate(83.41160,-317.4771)"
+       style="fill:none;fill-opacity:0.46153846;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="path5058" />
+    <text
+       x="327.69727"
+       y="83.456482"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text5060"
+       xml:space="preserve"><tspan
+         x="327.69727"
+         y="83.456482"
+         id="tspan5062">le réseau torrentlibre</tspan></text>
+    <path
+       d="M 235.00000 353.43362 A 3.5714285 3.2142856 0 1 1  227.85715,353.43362 A 3.5714285 3.2142856 0 1 1  235.00000 353.43362 z"
+       transform="matrix(0.736842,0.000000,0.000000,0.711538,23.80090,-171.0530)"
+       style="fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="path5064" />
+    <text
+       x="154.28571"
+       y="103.64789"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text5792"
+       xml:space="preserve"><tspan
+         x="154.28571"
+         y="103.64789"
+         id="tspan5794">media : </tspan></text>
+    <rect
+       width="9.1096554"
+       height="9.3112593"
+       x="207.06129"
+       y="95.756287"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.83578533;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect5796" />
+    <text
+       x="220.11429"
+       y="103.41785"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text6524"
+       xml:space="preserve"><tspan
+         x="220.11429"
+         y="103.41785"
+         id="tspan6526">musique</tspan></text>
+    <rect
+       width="9.1096554"
+       height="9.3112593"
+       x="287.03467"
+       y="95.743233"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.83578533;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect6528" />
+    <text
+       x="300.08765"
+       y="103.40479"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text6530"
+       xml:space="preserve"><tspan
+         x="300.08765"
+         y="103.40479"
+         id="tspan6532">image</tspan></text>
+    <rect
+       width="9.1096554"
+       height="9.3112593"
+       x="353.07526"
+       y="95.650574"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.83578533;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect6534" />
+    <text
+       x="366.12823"
+       y="103.31213"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text6536"
+       xml:space="preserve"><tspan
+         x="366.12823"
+         y="103.31213"
+         id="tspan6538">texte</tspan></text>
+    <rect
+       width="479.26590"
+       height="28.220215"
+       rx="10.000001"
+       ry="10.000000"
+       x="145.72420"
+       y="422.03778"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0223700;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect6540" />
+    <rect
+       width="175.83325"
+       height="18.214285"
+       rx="10.000001"
+       ry="10.000000"
+       x="152.44051"
+       y="427.21930"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0710000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect7268" />
+    <text
+       x="170.71428"
+       y="439.7193"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text7270"
+       xml:space="preserve"><tspan
+         x="170.71428"
+         y="439.7193"
+         id="tspan7272">Télécharger la séléction</tspan></text>
+    <rect
+       width="127.33106"
+       height="18.214285"
+       rx="10.000001"
+       ry="10.000000"
+       x="335.40588"
+       y="427.04077"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0811757;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+       id="rect7274" />
+    <text
+       x="353.89285"
+       y="439.54077"
+       style="font-size:12.000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+       id="text7276"
+       xml:space="preserve"><tspan
+         x="353.89285"
+         y="439.54077"
+         id="tspan7278">Tout télécharger</tspan></text>
+  </g>
+</svg>

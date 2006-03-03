@@ -1,0 +1,2 @@
+btmakemetafile http://82.224.255.98:7997/announce awaiting_files/martine.mp3 --announce_list http://82.224.255.98:7997/announce --target torrents/martine.mp3.torrent
+bttrack --port 7997 --dfile recent_downloaders --allowed_dir torrents --multitracker_enabled 1 --allow_get 1 --reannounce_interval 20
