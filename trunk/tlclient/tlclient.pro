@@ -4,21 +4,43 @@
 
 TEMPLATE = app
 TARGET = tlclient
-DEPENDPATH += . src src/qalf/core src/qalf/gui
-INCLUDEPATH += . src/qalf/core src/qalf/gui
+DEPENDPATH += . \
+              src \
+              src/qalf/core \
+              src/qalf/gui \
+              src/qalf/image
+
+INCLUDEPATH += . \
+               src/qalf/core \
+               src/qalf/gui \
+               src/qalf/image
+
 DESTDIR += bin
 OBJECTS_DIR = obj
+RESOURCES = tlclient.qrc
 
 # Input
 HEADERS += qalfmainwindow.h \
            qalfdb.h \
            qalfconfig.h \
-           qalfsearchwidget.h
+           qalfsearchwidget.h \
+           qalfimagewidget.h \
+           qalftreemodel.h \
+           treeitem.h \
+           qalfimagetreemodel.h \
+           qalfimagefile.h \
+           qalffile.h
 
 SOURCES += tlclient.cpp \
            qalfmainwindow.cpp \
            qalfdb.cpp \
            qalfconfig.cpp \
-           qalfsearchwidget.cpp
+           qalfsearchwidget.cpp \
+           qalfimagewidget.cpp \
+           qalftreemodel.cpp \
+           treeitem.cpp \
+           qalfimagetreemodel.cpp \
+           qalfimagefile.cpp \
+           qalffile.cpp
 
 LIBS += -lsqlite3 -L/usr/lib

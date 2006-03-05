@@ -13,18 +13,19 @@
 
 QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 
+	QSize iconSize(22, 22);
 	// Init of search bar
 	gSearchBar = new QWidget(this) ;
 	QHBoxLayout * layout1 = new QHBoxLayout() ;
-	gSearchLabel = new QLabel(tr("rechercher (mots-clés) :")) ;
+	gSearchLabel = new QLabel(tr("search (keywords) :")) ;
 	gSearchEdit = new QLineEdit(gSearchBar) ;
 	layout1->addWidget(gSearchLabel) ;
 	layout1->addWidget(gSearchEdit) ;
 	
 	QHBoxLayout * layout2 = new QHBoxLayout() ;
-	gSearchOnLabel = new QLabel(tr("sur :")) ;
-	gOnComputerButton = new QRadioButton(tr("mon ordinateur")) ;
-	gOnTLButton = new QRadioButton(tr("le réseau torrentlibre")) ;
+	gSearchOnLabel = new QLabel(tr("on :")) ;
+	gOnComputerButton = new QRadioButton(tr("my computer")) ;
+	gOnTLButton = new QRadioButton(tr("torrentlibre network")) ;
 	layout2->addWidget(gSearchOnLabel) ;
 	layout2->addWidget(gOnComputerButton) ;
 	layout2->addWidget(gOnTLButton) ;
@@ -32,9 +33,9 @@ QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 	
 	QHBoxLayout * layout3 = new QHBoxLayout() ;
 	gMediaLabel = new QLabel(tr("media :")) ;
-	gMediaMusic = new QCheckBox(tr("musique")) ;
+	gMediaMusic = new QCheckBox(tr("music")) ;
 	gMediaImage = new QCheckBox(tr("image")) ;
-	gMediaText = new QCheckBox(tr("texte")) ;
+	gMediaText = new QCheckBox(tr("text")) ;
 	layout3->addWidget(gMediaLabel) ;
 	layout3->addWidget(gMediaMusic) ;
 	layout3->addWidget(gMediaImage) ;
@@ -42,19 +43,19 @@ QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 	layout3->addStretch() ;
 	
 	QHBoxLayout * layout31 = new QHBoxLayout() ;
-	gAuthorLabel = new QLabel(tr("auteurs :")) ;
+	gAuthorLabel = new QLabel(tr("authors :")) ;
 	gAuthorEdit = new QLineEdit() ;
 	layout31->addWidget(gAuthorLabel) ;
 	layout31->addWidget(gAuthorEdit) ;
 	layout31->addStretch() ;
 	
 	QHBoxLayout * layout32 = new QHBoxLayout() ;
-	gLicenseLabel = new QLabel(tr("licences :")) ;
+	gLicenseLabel = new QLabel(tr("licenses :")) ;
 	gLicenseBy = new QCheckBox(tr("attribution"));
 	gLicenseShare = new QCheckBox(tr("redistribution")) ;
 	gLicenseDerivs = new QCheckBox(tr("modification")) ;
-	gLicenseCommercial = new QCheckBox(tr("utilisation commerciale")) ;
-	gLicenseShareAlike = new QCheckBox(tr("licence virale")) ;
+	gLicenseCommercial = new QCheckBox(tr("commercial use")) ;
+	gLicenseShareAlike = new QCheckBox(tr("share alike")) ;
 	layout32->addWidget(gLicenseLabel) ;
 	layout32->addWidget(gLicenseBy) ;
 	layout32->addWidget(gLicenseShare) ;
@@ -66,13 +67,13 @@ QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 	gTabMediaSearch = new QTabWidget(gSearchBar) ;
 	gMusicSearchTab = new QWidget() ;
 	
-	gMusicTitleLabel = new QLabel(tr("titre :")) ;
+	gMusicTitleLabel = new QLabel(tr("title :")) ;
 	gMusicTitleEdit = new QLineEdit() ;
 	QHBoxLayout * layout4 = new QHBoxLayout() ;
 	layout4->addWidget(gMusicTitleLabel) ;
 	layout4->addWidget(gMusicTitleEdit) ;
 	
-	gMusicBandLabel = new QLabel(tr("groupe :")) ;
+	gMusicBandLabel = new QLabel(tr("band :")) ;
 	gMusicBandEdit = new QLineEdit() ;
 	QHBoxLayout * layout5 = new QHBoxLayout() ;
 	layout5->addWidget(gMusicBandLabel) ;
@@ -93,18 +94,100 @@ QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 	
 	QGridLayout * gridLayout = new QGridLayout() ;
 	gridLayout->addLayout(layout4,0,0) ;
-	gridLayout->addLayout(layout5,0,1) ;
+	gridLayout->addLayout(layout5,0,2) ;
 	gridLayout->addLayout(layout6,1,0) ;
-	gridLayout->addLayout(layout7,1,1) ;
-	
+	gridLayout->addLayout(layout7,1,2) ;
+	gridLayout->setColumnMinimumWidth(1,25) ;
 	gMusicSearchTab->setLayout(gridLayout) ;
 	
 	gImageSearchTab = new QWidget() ;
-	gTextSearchTab = new QWidget() ;
+	gImageTitleLabel = new QLabel(tr("title :")) ;
+	gImageTitleEdit = new QLineEdit() ;
+	QHBoxLayout * layout8 = new QHBoxLayout() ;
+	layout8->addWidget(gImageTitleLabel) ;
+	layout8->addWidget(gImageTitleEdit,1) ;
 	
-	gTabMediaSearch->addTab(gMusicSearchTab,tr("musique")) ;
-	gTabMediaSearch->addTab(gImageSearchTab,tr("image")) ;
-	gTabMediaSearch->addTab(gTextSearchTab,tr("texte")) ;
+	gImageSizeLabel = new QLabel(tr("dimensions :")) ;
+	gImageWidthEdit = new QSpinBox() ;
+// 	QSize size = gImageWidthEdit->minimumSizeHint() ;
+// 	size.setWidth(40) ;
+// 	gImageWidthEdit->setMaximumSize(size) ;
+	gImageHeightEdit = new QSpinBox() ;
+// 	size = gImageHeightEdit->minimumSizeHint() ;
+// 	size.setWidth(40) ;
+// 	gImageHeightEdit->setMaximumSize(size) ;
+	QHBoxLayout * layout9 = new QHBoxLayout() ;
+	layout9->addWidget(gImageSizeLabel) ;
+	layout9->addWidget(gImageWidthEdit) ;
+	layout9->addWidget(new QLabel("x")) ;
+	layout9->addWidget(gImageHeightEdit) ;
+	layout9->addStretch() ;
+	
+	gImageFormatLabel = new QLabel(tr("format :")) ;
+	gImageFormatEdit = new QLineEdit() ;
+	QSize size = gImageFormatEdit->minimumSizeHint() ;
+	size.setWidth(40) ;
+	gImageFormatEdit->setMaximumSize(size) ;
+	QHBoxLayout * layout10 = new QHBoxLayout() ;
+	layout10->addWidget(gImageFormatLabel) ;
+	layout10->addWidget(gImageFormatEdit) ;
+	layout10->addStretch() ;
+	
+	gImageCategoryLabel = new QLabel(tr("category :")) ;
+	gImageCategoryEdit = new QComboBox() ;
+	QHBoxLayout * layout11 = new QHBoxLayout() ;
+	layout11->addWidget(gImageCategoryLabel) ;
+	layout11->addWidget(gImageCategoryEdit) ;
+	layout11->addStretch() ;
+	
+	QGridLayout * gridLayout2 = new QGridLayout() ;
+	gridLayout2->addLayout(layout8,0,0) ;
+	gridLayout2->addLayout(layout10,0,2) ;
+	gridLayout2->addLayout(layout9,1,0) ;
+	gridLayout2->addLayout(layout11,1,2) ;
+	gridLayout2->setColumnMinimumWidth(1,25) ;
+	gImageSearchTab->setLayout(gridLayout2) ;
+	
+	gTextSearchTab = new QWidget() ;
+	gTextTitleLabel = new QLabel(tr("title :")) ;
+	gTextTitleEdit = new QLineEdit() ;
+	QHBoxLayout * layout12 = new QHBoxLayout() ;
+	layout12->addWidget(gTextTitleLabel) ;
+	layout12->addWidget(gTextTitleEdit) ;
+	
+	gTextCategoryLabel = new QLabel(tr("category :")) ;
+	gTextCategoryEdit = new QComboBox() ;
+	QHBoxLayout * layout13 = new QHBoxLayout() ;
+	layout13->addWidget(gTextCategoryLabel) ;
+	layout13->addWidget(gTextCategoryEdit) ;
+	layout13->addStretch() ;
+	
+	gTextStyleLabel = new QLabel(tr("style :")) ;
+	gTextStyleEdit = new QComboBox() ;
+	QHBoxLayout * layout14 = new QHBoxLayout() ;
+	layout14->addWidget(gTextStyleLabel) ;
+	layout14->addWidget(gTextStyleEdit) ;
+	layout14->addStretch() ;
+	
+	gTextPagesLabel = new QLabel(tr("pages :")) ;
+	gTextPagesEdit = new QSpinBox() ;
+	QHBoxLayout * layout15 = new QHBoxLayout() ;
+	layout15->addWidget(gTextPagesLabel) ;
+	layout15->addWidget(gTextPagesEdit) ;
+	layout15->addStretch() ;
+	
+	QGridLayout * gridLayout3 = new QGridLayout() ;
+	gridLayout3->addLayout(layout12,0,0,1,-1) ;
+	gridLayout3->addLayout(layout13,1,0) ;
+	gridLayout3->addLayout(layout14,1,2) ;
+	gridLayout3->addLayout(layout15,1,4) ;
+	gridLayout3->setColumnMinimumWidth(1,25) ;
+	gridLayout3->setColumnMinimumWidth(3,25) ;
+	gTextSearchTab->setLayout(gridLayout3) ;
+	
+	gTabMediaSearch->addTab(gMusicSearchTab,QIcon(":/icons/cd.png"),tr("music")) ;
+	gTabMediaSearch->addTab(gImageSearchTab,QIcon(":/icons/imagegallery.png"),tr("image")) ;
+	gTabMediaSearch->addTab(gTextSearchTab,QIcon(":/icons/toggle_log.png"),tr("text")) ;
 	gMusicSearchTab->setEnabled(false) ;
 	gImageSearchTab->setEnabled(false) ;
 	gTextSearchTab->setEnabled(false) ;
@@ -125,8 +208,14 @@ QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 	// Init of controls
 	gSearchControls = new QWidget(this) ;
 	QHBoxLayout * controlsLayout = new QHBoxLayout() ;
-	gDownloadSelection = new QPushButton(tr("Télécharger la sélection")) ;
+	gDownloadSelection = new QPushButton(tr("Download selection")) ;
+	gDownloadSelection->setIcon(QIcon(":/icons/1downarrow.png")) ;
+	gDownloadSelection->setIconSize(iconSize) ;
+	gDownloadAll = new QPushButton(tr("Download all")) ;
+	gDownloadAll->setIcon(QIcon(":/icons/2downarrow.png")) ;
+	gDownloadAll->setIconSize(iconSize) ;
 	controlsLayout->addWidget(gDownloadSelection) ;
+	controlsLayout->addWidget(gDownloadAll) ;
 	controlsLayout->addStretch() ;
 	gSearchControls->setLayout(controlsLayout) ;
 	
@@ -137,7 +226,22 @@ QalfSearchWidget::QalfSearchWidget(QWidget * parent) : QWidget(parent) {
 	searchLayout->addWidget(gSearchControls) ;
 	this->setLayout(searchLayout) ;
 	
-	QObject::connect(gMediaMusic,SIGNAL(toggled(bool)),gMusicSearchTab,SLOT(setEnabled(bool))) ;
-	QObject::connect(gMediaImage,SIGNAL(toggled(bool)),gImageSearchTab,SLOT(setEnabled(bool))) ;
-	QObject::connect(gMediaText,SIGNAL(toggled(bool)),gTextSearchTab,SLOT(setEnabled(bool))) ;
+	QObject::connect(gMediaMusic,SIGNAL(toggled(bool)),this,SLOT(activateMusicSearch(bool))) ;
+	QObject::connect(gMediaImage,SIGNAL(toggled(bool)),this,SLOT(activateImageSearch(bool))) ;
+	QObject::connect(gMediaText,SIGNAL(toggled(bool)),this,SLOT(activateTextSearch(bool))) ;
+}
+
+void QalfSearchWidget::activateMusicSearch(bool enabled) {
+	gMusicSearchTab->setEnabled(enabled) ;
+	if(enabled) gTabMediaSearch->setCurrentWidget(gMusicSearchTab) ;
+}
+
+void QalfSearchWidget::activateImageSearch(bool enabled) {
+	gImageSearchTab->setEnabled(enabled) ;
+	if(enabled) gTabMediaSearch->setCurrentWidget(gImageSearchTab) ;
+}
+
+void QalfSearchWidget::activateTextSearch(bool enabled) {
+	gTextSearchTab->setEnabled(enabled) ;
+	if(enabled) gTabMediaSearch->setCurrentWidget(gTextSearchTab) ;
 }

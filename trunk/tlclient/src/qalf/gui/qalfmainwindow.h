@@ -14,17 +14,27 @@
 
 #include <QtGui>
 #include "qalfsearchwidget.h"
+#include "qalfimagewidget.h"
+#include "qalfimagetreemodel.h"
 
 class QalfMainWindow : public QMainWindow {
 	Q_OBJECT
 	
 	public:
 		QalfMainWindow() ;
+		void setImageModel(QalfImageTreeModel * imageTreeModel) ;
+	
+	signals:
+		void imageChanged(const QString & imagePath) ;
+	
+	private slots:
+		void openImage(const QModelIndex & index) ;
 	
 	private:
 		QToolBox * gLibrary ;
 		QTabWidget * gTabActions ;
-		QalfSearchWidget * searchTab ;
+		QalfSearchWidget * gSearchTab ;
+		QalfImageWidget * gImageTab ;
 		
 		QTreeView * gMusicTree ;
 		QTreeView * gImageTree ;

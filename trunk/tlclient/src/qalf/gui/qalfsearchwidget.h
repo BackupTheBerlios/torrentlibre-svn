@@ -20,6 +20,11 @@ class QalfSearchWidget : public QWidget {
 	public:
 		QalfSearchWidget(QWidget * parent = 0) ;
 	
+	public slots:
+		void activateMusicSearch(bool enabled) ;
+		void activateImageSearch(bool enabled) ;
+		void activateTextSearch(bool enabled) ;
+	
 	private:
 		QWidget * gSearchBar ;
 		QTableView * gSearchResults ;
@@ -55,9 +60,29 @@ class QalfSearchWidget : public QWidget {
 		QComboBox * gMusicStyleEdit ;
 		
 		QWidget * gImageSearchTab ;
+		QLabel * gImageTitleLabel ;
+		QLabel * gImageSizeLabel ;
+		QLabel * gImageFormatLabel ;
+		QLabel * gImageCategoryLabel ;
+		QLineEdit * gImageTitleEdit ;
+		QSpinBox * gImageWidthEdit ;
+		QSpinBox * gImageHeightEdit ;
+		QLineEdit * gImageFormatEdit ;
+		QComboBox * gImageCategoryEdit ;
+		
 		QWidget * gTextSearchTab ;
+		QLabel * gTextTitleLabel ;
+		QLabel * gTextCategoryLabel ;
+		QLabel * gTextStyleLabel ;
+		QLabel * gTextPagesLabel ;
+		QLineEdit * gTextTitleEdit ;
+		QComboBox * gTextCategoryEdit ;
+		QComboBox * gTextStyleEdit ;
+		QSpinBox * gTextPagesEdit ;
+		
 		
 		QPushButton * gDownloadSelection ;
+		QPushButton * gDownloadAll ;
 };
 
 #endif // QalfSEARCHWIDGET_H

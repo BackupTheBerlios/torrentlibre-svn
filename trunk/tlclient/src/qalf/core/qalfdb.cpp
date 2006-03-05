@@ -15,6 +15,10 @@ QalfDb::QalfDb(const QString & dbFile) {
 	this->dbFile = dbFile ;
 }
 
+QalfDb::~QalfDb() {
+	
+}
+
 bool QalfDb::open() {
 	// open or create database
 	int rc = sqlite3_open(this->dbFile.toLocal8Bit().data(), &(this->db));
@@ -36,6 +40,46 @@ bool QalfDb::open() {
 	return true ;
 }
 
-QalfDb::~QalfDb() {
+void QalfDb::run() {
+	qDebug("Db thread started") ;
+	exec() ;
+}
+
+QList<QHash<QString,QString> *> * QalfDb::selectAllByMedia(QString & media) {
+	
+	QString sqlRequest = QString("select * from ")+media+QString(" m join file f on m.hash=f.hash ;") ;
+	char ** results ;
+	int rowCount,columnCount ;
+	char * errMsg ;
+	qDebug() << "Ready for executing request" ;
+	int rc = sqlite3_get_table(this->db,sqlRequest.toLocal8Bit().data(),&results,&rowCount,&columnCount,&errMsg) ;
+	if(rc) {
+		qWarning("can't retrieve date from db in QalfDb::selectAllByMedia") ;
+	}
+	qDebug() << "request executed" ;
+	QList<QHash<QString,QString> *> * resultList = new QList<QHash<QString,QString> *>() ;
+	qDebug() << "result list initialized" ;
+	
+	for(int row=0;row < rowCount;++row) {
+		QHash<QString,QString> * oneRow = new QHash<QString,QString>() ;
+		for(int col=1;col < columnCount;++col) {
+			qDebug() << "row " << row << " : [" << results[col] << "] " << results[(1+row)*columnCount+col] ;
+			(*oneRow)[QString(results[col])] = QString(results[(1+row)*columnCount+col]) ;
+		}
+		(*resultList) += oneRow ;
+	}
+	
+	sqlite3_free_table(results);
+	
+	return resultList ;
+}
+
+void QalfDb::close() {
 	sqlite3_close(this->db);
+}
+
+void QalfDb::closeAndExit() {
+	qDebug("Db thread exiting") ;
+	close() ;
+	exit() ;
 }

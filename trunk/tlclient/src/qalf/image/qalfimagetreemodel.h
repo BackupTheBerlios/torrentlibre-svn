@@ -9,31 +9,25 @@
 **
 ********************************************************/
 
-#ifndef QalfDB_H
-#define QalfDB_H
-#include <QThread>
-#include <QtDebug>
-#include <sqlite3.h>
+#ifndef QalfIMAGETREEMODEL_H
+#define QalfIMAGETREEMODEL_H
 
-class QalfDb : public QThread {
+#include "qalftreemodel.h"
+#include "qalfimagefile.h"
+#include <QStringList>
+
+class TreeItem ;
+
+class QalfImageTreeModel : public QalfTreeModel {
+
 	Q_OBJECT
-	
+
 	public:
-		QalfDb(const QString & dbFile) ;
-		~QalfDb() ;
-		void run();
-		bool open() ;
-		
-		QList<QHash<QString,QString> *> * selectAllByMedia(QString & media) ;
-		
-	public slots:
-		void close() ;
-		void closeAndExit() ;
-	
-	protected:
-		QString dbFile ;
-		sqlite3 *db;
-		
+		QalfImageTreeModel(QalfDb * database) ;
+		QVariant data(const QModelIndex &index, int role) const ;
+		void loadData() ;
 };
 
-#endif // QalfDB_H
+Q_DECLARE_METATYPE(QalfImageFile *)
+
+#endif // QalfIMAGETREEMODEL_H
