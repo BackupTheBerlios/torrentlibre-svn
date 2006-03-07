@@ -15,6 +15,7 @@
 #include <QtDebug>
 #include <sqlite3.h>
 #include <QHash>
+
 #include <QList>
 
 class QalfDb : public QThread {
