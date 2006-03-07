@@ -1,6 +1,7 @@
-********************
-* Licence machin   *
-********************
+This TODO list is currently describing the main features which have to be implemented and some points we have to care.
 
-Faut que tu fasses une Todo list, parce que je veux bien m'y
-mettre, mais si je sais pas ce qu'il y a a faire...
+- add a pdf viewer (probably based on poppler) for text reading
+- add an audio player (based on SDL_mixer) for music listening
+- add a module to send new torrent for moderators
+- add the bittorrent part to download files
+- define and implement the connection and search protocols
