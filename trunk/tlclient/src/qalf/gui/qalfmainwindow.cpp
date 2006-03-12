@@ -13,6 +13,7 @@
 #include "treeitem.h"
 
 QalfMainWindow::QalfMainWindow() {
+	createMenu() ;
 	QSplitter * centralWidget = new QSplitter(this) ;
 	
 	gLibrary = new QToolBox(centralWidget) ;
@@ -37,6 +38,31 @@ QalfMainWindow::QalfMainWindow() {
 	
 	connect(gImageTree,SIGNAL(clicked(QModelIndex)),this,SLOT(openImage(QModelIndex))) ;
 	connect(this,SIGNAL(imageChanged(QString)),gImageTab,SLOT(setImage(QString))) ;
+}
+
+void QalfMainWindow::createMenu() {
+	quitAction = new QAction(tr("&Quit"), this);
+	quitAction->setShortcut(tr("Ctrl+Q"));
+	quitAction->setStatusTip(tr("Quit torrentlibre"));
+	connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+	appMenu = this->menuBar()->addMenu(tr("&File"));
+	appMenu->addAction(quitAction) ;
+
+	prefAction = new QAction(tr("&Preferences"), this);
+	prefAction->setShortcut(tr("Ctrl+P"));
+	prefAction->setStatusTip(tr("Edit preferences"));
+// 	connect(prefAction, SIGNAL(triggered()), this, SLOT(close()));
+	
+	moderatorAction = new QAction(tr("&Moderator mode"), this);
+	moderatorAction->setShortcut(tr("Ctrl+M"));
+	moderatorAction->setStatusTip(tr("Set moderator mode"));
+	moderatorAction->setCheckable(true) ;
+// 	connect(prefAction, SIGNAL(triggered()), this, SLOT(close()));
+
+	configMenu = this->menuBar()->addMenu(tr("&Configuration"));
+	configMenu->addAction(prefAction) ;
+	configMenu->addAction(moderatorAction) ;
 }
 
 void QalfMainWindow::setImageModel(QalfImageTreeModel * imageTreeModel) {

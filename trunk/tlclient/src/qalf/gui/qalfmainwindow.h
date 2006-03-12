@@ -31,6 +31,9 @@ class QalfMainWindow : public QMainWindow {
 		void openImage(const QModelIndex & index) ;
 	
 	private:
+		void createMenu() ;
+
+	private:
 		QToolBox * gLibrary ;
 		QTabWidget * gTabActions ;
 		QalfSearchWidget * gSearchTab ;
@@ -39,6 +42,13 @@ class QalfMainWindow : public QMainWindow {
 		QTreeView * gMusicTree ;
 		QTreeView * gImageTree ;
 		QTreeView * gTextTree ;
+
+		QMenu * appMenu ;
+		QAction * quitAction ;
+
+		QMenu * configMenu ;
+		QAction * prefAction ;
+		QAction * moderatorAction ;
 };
 
 #endif // QalfMAINWINDOW_H
