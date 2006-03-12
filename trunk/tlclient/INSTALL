@@ -1,0 +1,9 @@
+install qt4 libraries from sources or from your distribution
+
+Note on ubuntu : installing qt4 from package don't replace the symlink of moc. Use qmake-qt4 instead of qmake (or recreate the symlink) and replace the symlink of moc : rm /etc/alternatives/moc ; ln -s /usr/bin/moc-qt4 /etc/alternatives/moc
+
+You need to install boost development package to get libtorrent working :
+ - Boost::DateTime
+ - Boost::Filesystem
+ - Boost::Thread
+ - Boost::Serialization
