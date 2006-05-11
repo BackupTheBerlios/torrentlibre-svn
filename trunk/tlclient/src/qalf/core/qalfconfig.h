@@ -13,6 +13,8 @@
 #define QalfCONFIG_H
 #include <QFileInfo>
 #include <QDir>
+#include <QReadWriteLock>
+#include <QHash>
 
 #define TLVERSION 0.1
 
@@ -34,15 +36,24 @@ class QalfConfig : public QObject {
 	Q_OBJECT
 	
 	public:
-		QalfConfig() ;
-		~QalfConfig() ;
+		static QalfConfig * getConfigObject() ;
 		QString getConfigDir() const ;
 		QString getDbFile() const ;
+		QString getProperty(QString &key) ;
+		void setProperty(QString &key, QString &value) ;
 		
+	public slots:
+		void save() ;
+		void load() ;
+
 	protected:
+		static QalfConfig * configObject ;
+		QalfConfig() ;
+		~QalfConfig() ;
 		QString configDir ;
 		QString dbFile ;
-	
+		QHash<QString,QString> properties ;
+		QReadWriteLock lock;
 };
 
 #endif // QalfCONFIG_H

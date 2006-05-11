@@ -42,7 +42,8 @@ HEADERS += qalfmainwindow.h \
            treeitem.h \
            qalfimagetreemodel.h \
            qalfimagefile.h \
-           qalffile.h
+           qalffile.h \
+           qalfmoderatordialog.h
 
 SOURCES += tlclient.cpp \
            qalfmainwindow.cpp \
@@ -54,6 +55,7 @@ SOURCES += tlclient.cpp \
            treeitem.cpp \
            qalfimagetreemodel.cpp \
            qalfimagefile.cpp \
-           qalffile.cpp
+           qalffile.cpp \
+           qalfmoderatordialog.cpp
 
 LIBS += -lsqlite3 -L/usr/lib

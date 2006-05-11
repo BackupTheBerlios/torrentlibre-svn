@@ -11,6 +11,14 @@
 
 #include "qalfconfig.h"
 #include <QDir>
+#include <QtDebug>
+
+QalfConfig * QalfConfig::configObject(0) ;
+
+QalfConfig * QalfConfig::getConfigObject() {
+	if(!configObject) configObject = new QalfConfig() ;
+	return configObject ;
+}
 
 QalfConfig::QalfConfig() {
 	QDir current_dir = QDir::home() ;
@@ -32,4 +40,32 @@ QString QalfConfig::getConfigDir() const {
 
 QString QalfConfig::getDbFile() const {
 	return QString(this->dbFile) ;
+}
+
+QString QalfConfig::getProperty(QString &key) {
+	lock.lockForRead() ;
+	if(properties.contains(key)) {
+		return properties.value(key) ;
+	} else {
+		return QString("") ;
+	}
+	lock.unlock() ;
+}
+
+void QalfConfig::setProperty(QString &key, QString &value) {
+	lock.lockForWrite() ;
+	properties[key] = value ;
+	lock.unlock() ;
+}
+
+void QalfConfig::save() {
+	lock.lockForWrite() ;
+	for(QHash<QString, QString>::const_iterator i = properties.constBegin();i < properties.constEnd();++i) {
+		qDebug() << "<" << i.key() << ">" << i.value() << "<" << i.key() << "/>" ;
+	}
+	lock.unlock() ;
+}
+
+void QalfConfig::load() {
+
 }

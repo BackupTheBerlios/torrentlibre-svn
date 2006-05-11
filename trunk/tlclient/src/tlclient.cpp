@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	// check config files and create them if they don't exist
 	splash->showMessage(QObject::tr("Loading configuration"));
 	app.processEvents();
-	QalfConfig * config = new QalfConfig ;
+	QalfConfig * config = QalfConfig::getConfigObject() ;
 // 	for(int i =0 ; i < 1000000000;i++) {
 // 		float a = 1324234.234234/132424.234 ;
 // 	}

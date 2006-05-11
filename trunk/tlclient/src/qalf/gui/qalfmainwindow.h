@@ -28,6 +28,7 @@ class QalfMainWindow : public QMainWindow {
 		void imageChanged(const QString & imagePath) ;
 	
 	private slots:
+		void showModeratorDialog() ;
 		void openImage(const QModelIndex & index) ;
 	
 	private:
@@ -48,7 +49,8 @@ class QalfMainWindow : public QMainWindow {
 
 		QMenu * configMenu ;
 		QAction * prefAction ;
-		QAction * moderatorAction ;
+		QAction * moderatorModeAction ;
+		QAction * moderatorDialogAction ;
 };
 
 #endif // QalfMAINWINDOW_H

@@ -11,6 +11,7 @@
 
 #include "qalfmainwindow.h"
 #include "treeitem.h"
+#include "qalfmoderatordialog.h"
 
 QalfMainWindow::QalfMainWindow() {
 	createMenu() ;
@@ -54,19 +55,31 @@ void QalfMainWindow::createMenu() {
 	prefAction->setStatusTip(tr("Edit preferences"));
 // 	connect(prefAction, SIGNAL(triggered()), this, SLOT(close()));
 	
-	moderatorAction = new QAction(tr("&Moderator mode"), this);
-	moderatorAction->setShortcut(tr("Ctrl+M"));
-	moderatorAction->setStatusTip(tr("Set moderator mode"));
-	moderatorAction->setCheckable(true) ;
-// 	connect(prefAction, SIGNAL(triggered()), this, SLOT(close()));
+	moderatorModeAction = new QAction(tr("&Moderator mode"), this);
+	moderatorModeAction->setShortcut(tr("Ctrl+M"));
+	moderatorModeAction->setStatusTip(tr("Set moderator mode"));
+	moderatorModeAction->setCheckable(true) ;
+
+	moderatorDialogAction = new QAction(tr("Mo&derator preferences"), this);
+	moderatorDialogAction->setShortcut(tr("Ctrl+L"));
+	moderatorDialogAction->setStatusTip(tr("Edit moderator preferences"));
+	moderatorDialogAction->setVisible(false) ;
+	connect(moderatorModeAction, SIGNAL(toggled(bool)), moderatorDialogAction, SLOT(setVisible(bool)));
+	connect(moderatorDialogAction, SIGNAL(triggered()), this, SLOT(showModeratorDialog()));
 
 	configMenu = this->menuBar()->addMenu(tr("&Configuration"));
 	configMenu->addAction(prefAction) ;
-	configMenu->addAction(moderatorAction) ;
+	configMenu->addAction(moderatorModeAction) ;
+	configMenu->addAction(moderatorDialogAction) ;
 }
 
 void QalfMainWindow::setImageModel(QalfImageTreeModel * imageTreeModel) {
 	gImageTree->setModel(imageTreeModel) ;
+}
+
+void QalfMainWindow::showModeratorDialog() {
+	QalfModeratorDialog dialogBox ;
+	dialogBox.exec() ;
 }
 
 void QalfMainWindow::openImage(const QModelIndex & index) {
