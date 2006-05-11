@@ -80,6 +80,7 @@ void QalfMainWindow::setImageModel(QalfImageTreeModel * imageTreeModel) {
 void QalfMainWindow::showModeratorDialog() {
 	QalfModeratorDialog dialogBox ;
 	dialogBox.exec() ;
+	qDebug() << "dialog closed" ;
 }
 
 void QalfMainWindow::openImage(const QModelIndex & index) {

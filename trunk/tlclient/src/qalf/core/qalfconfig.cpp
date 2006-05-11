@@ -53,15 +53,17 @@ QString QalfConfig::getProperty(QString &key) {
 }
 
 void QalfConfig::setProperty(QString &key, QString &value) {
+	QString keyCopy(key) ;
+	QString valueCopy(value) ;
 	lock.lockForWrite() ;
-	properties[key] = value ;
+	properties[keyCopy] = valueCopy ;
 	lock.unlock() ;
 }
 
 void QalfConfig::save() {
 	lock.lockForWrite() ;
 	for(QHash<QString, QString>::const_iterator i = properties.constBegin();i < properties.constEnd();++i) {
-		qDebug() << "<" << i.key() << ">" << i.value() << "<" << i.key() << "/>" ;
+		qDebug() << "<" << i.key() << ">" << i.value() << "</" << i.key() << ">" ;
 	}
 	lock.unlock() ;
 }

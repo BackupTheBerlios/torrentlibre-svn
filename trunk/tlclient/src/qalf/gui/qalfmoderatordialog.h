@@ -20,6 +20,17 @@ class QalfModeratorDialog : public QDialog {
 	public:
 		QalfModeratorDialog(QWidget * parent = 0) ;
 	
+	protected slots:
+		void savePref() ;
+
+	protected:
+		QLabel * usernameLabel ;
+		QLineEdit * usernameValue ;
+		QHBoxLayout * usernameLayout ;
+		QPushButton * okButton ;
+		QPushButton * cancelButton ;
+		QHBoxLayout * buttonLayout ;
+		QVBoxLayout * vlayout ;
 };
 
 #endif // QalfMODERATORDIALOG_H
