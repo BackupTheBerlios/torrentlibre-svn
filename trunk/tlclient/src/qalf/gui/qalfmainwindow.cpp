@@ -12,6 +12,7 @@
 #include "qalfmainwindow.h"
 #include "treeitem.h"
 #include "qalfmoderatordialog.h"
+#include "qalfconfig.h"
 
 QalfMainWindow::QalfMainWindow() {
 	createMenu() ;
@@ -63,8 +64,19 @@ void QalfMainWindow::createMenu() {
 	moderatorDialogAction = new QAction(tr("Mo&derator preferences"), this);
 	moderatorDialogAction->setShortcut(tr("Ctrl+L"));
 	moderatorDialogAction->setStatusTip(tr("Edit moderator preferences"));
-	moderatorDialogAction->setVisible(false) ;
+
+	QalfConfig * configObject = QalfConfig::getConfigObject() ;
+	QString property("moderatorMode") ;
+	if(configObject->getProperty(property) == "enabled") {
+		moderatorModeAction->setChecked(true) ;
+		moderatorDialogAction->setVisible(true) ;
+	} else {
+		moderatorModeAction->setChecked(false) ;
+		moderatorDialogAction->setVisible(false) ;
+	}
+	
 	connect(moderatorModeAction, SIGNAL(toggled(bool)), moderatorDialogAction, SLOT(setVisible(bool)));
+	connect(moderatorModeAction, SIGNAL(toggled(bool)), this, SLOT(saveModeratorMode()));
 	connect(moderatorDialogAction, SIGNAL(triggered()), this, SLOT(showModeratorDialog()));
 
 	configMenu = this->menuBar()->addMenu(tr("&Configuration"));
@@ -91,4 +103,14 @@ void QalfMainWindow::openImage(const QModelIndex & index) {
 		qDebug() << "file path : " << data.value<QalfImageFile *>()->getFilePath() ;
 		emit imageChanged(data.value<QalfImageFile *>()->getFilePath()) ;
 	}
+}
+
+void QalfMainWindow::saveModeratorMode() {
+	QalfConfig * configObject = QalfConfig::getConfigObject() ;
+	QString key("moderatorMode") ;
+	QString value ;
+	if(moderatorModeAction->isChecked()) value = "enabled" ;
+	else value = "disabled" ;
+	configObject->setProperty(key,value) ;
+	configObject->save() ;
 }

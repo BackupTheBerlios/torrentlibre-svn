@@ -15,6 +15,7 @@
 #include <QDir>
 #include <QReadWriteLock>
 #include <QHash>
+#include <QtXml>
 
 #define TLVERSION 0.1
 
@@ -30,7 +31,8 @@
 #define TL_DIR ".torrentlibre"
 #endif
 
-#define DBFILE "tl.db"
+#define DB_FILE "tl.db"
+#define CONF_FILE "tl.conf"
 
 class QalfConfig : public QObject {
 	Q_OBJECT
@@ -51,9 +53,23 @@ class QalfConfig : public QObject {
 		QalfConfig() ;
 		~QalfConfig() ;
 		QString configDir ;
+		QString confFile ;
 		QString dbFile ;
 		QHash<QString,QString> properties ;
 		QReadWriteLock lock;
+		
+		class QalfXmlConfigHandler ;
+		friend class QalfXmlConfigHandler ;
+		class QalfXmlConfigHandler : public QXmlDefaultHandler {
+			public:
+				QalfXmlConfigHandler(QalfConfig * configObject) ;
+				bool startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts) ;
+				bool characters(const QString & ch) ;
+
+			private :
+				QalfConfig *configObject ;
+				QString currentProp ;
+		};
 };
 
 #endif // QalfCONFIG_H

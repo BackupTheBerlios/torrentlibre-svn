@@ -43,12 +43,12 @@ int main(int argc, char *argv[])
 	// load or create database
 	splash->showMessage(QObject::tr("Loading database"));
 	app.processEvents();
-	QalfDb * db = new QalfDb(config->getDbFile()) ;
-	db->open() ;
-	db->start() ;
+	QalfDb * db = QalfDb::getDbObject() ;
+// // 	db->open() ;
+// 	db->start() ;
 	
 	// load images data
-	QalfImageTreeModel * imageTreeModel = new QalfImageTreeModel(db) ;
+	QalfImageTreeModel * imageTreeModel = new QalfImageTreeModel() ;
 	qDebug() << "imageTreeModel->loadData()" ;
 	imageTreeModel->loadData() ;
 	qDebug() << "mainWin.setImageModel(imageTreeModel)" ;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 	delete splash;
 	
 	int appReturn = app.exec() ;
-	db->closeAndExit() ;
+	db->close() ;
 	
 	return appReturn;
 }

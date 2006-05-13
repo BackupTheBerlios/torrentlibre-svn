@@ -21,8 +21,9 @@ QalfModeratorDialog::QalfModeratorDialog(QWidget * parent) : QDialog(parent) {
 	
 	okButton = new QPushButton(tr("Ok")) ;
 	connect(okButton,SIGNAL(clicked()),this,SLOT(savePref())) ;
+	connect(okButton,SIGNAL(clicked()),this,SLOT(accept())) ;
 	cancelButton = new QPushButton(tr("Cancel")) ;
-	connect(cancelButton,SIGNAL(clicked()),this,SLOT(close())) ;
+	connect(cancelButton,SIGNAL(clicked()),this,SLOT(reject())) ;
 	buttonLayout = new QHBoxLayout() ;
 	buttonLayout->addStretch() ;
 	buttonLayout->addWidget(okButton) ;
@@ -41,5 +42,4 @@ void QalfModeratorDialog::savePref() {
 	QString usernameKey("username") ;
 	configObject->setProperty(usernameKey,username) ;
 	configObject->save() ;
-	qDebug() << "saved" ;
 }

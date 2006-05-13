@@ -24,7 +24,7 @@ class QalfTreeModel : public QAbstractItemModel {
 	Q_OBJECT
 
 	public:
-		QalfTreeModel(QalfDb * database, QObject *parent = 0);
+		QalfTreeModel(QObject *parent = 0);
 		~QalfTreeModel();
 
 		QVariant data(const QModelIndex &index, int role) const;

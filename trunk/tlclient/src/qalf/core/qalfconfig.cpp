@@ -16,7 +16,10 @@
 QalfConfig * QalfConfig::configObject(0) ;
 
 QalfConfig * QalfConfig::getConfigObject() {
-	if(!configObject) configObject = new QalfConfig() ;
+	if(!configObject) {
+		configObject = new QalfConfig() ;
+		configObject->load() ;
+	}
 	return configObject ;
 }
 
@@ -27,7 +30,8 @@ QalfConfig::QalfConfig() {
 	}
 	current_dir.cd(TL_DIR) ;
 	this->configDir = current_dir.canonicalPath() ;
-	this->dbFile = current_dir.absoluteFilePath(DBFILE) ;
+	this->dbFile = current_dir.absoluteFilePath(DB_FILE) ;
+	this->confFile = current_dir.absoluteFilePath(CONF_FILE) ;
 }
 
 QalfConfig::~QalfConfig() {
@@ -43,31 +47,86 @@ QString QalfConfig::getDbFile() const {
 }
 
 QString QalfConfig::getProperty(QString &key) {
+	qDebug() << "asking for lock read" ;
 	lock.lockForRead() ;
+	qDebug() << "got lock" ;
+	QString value("") ;
 	if(properties.contains(key)) {
-		return properties.value(key) ;
-	} else {
-		return QString("") ;
+		value = properties.value(key) ;
 	}
+	qDebug() << "releasing lock" ;
 	lock.unlock() ;
+	qDebug() << "lock released" ;
+	return value ;
 }
 
 void QalfConfig::setProperty(QString &key, QString &value) {
 	QString keyCopy(key) ;
 	QString valueCopy(value) ;
+	qDebug() << "asking for lock write" ;
 	lock.lockForWrite() ;
+	qDebug() << "lock got" ;
 	properties[keyCopy] = valueCopy ;
+	qDebug() << "releasing lock" ;
 	lock.unlock() ;
 }
 
 void QalfConfig::save() {
-	lock.lockForWrite() ;
-	for(QHash<QString, QString>::const_iterator i = properties.constBegin();i < properties.constEnd();++i) {
-		qDebug() << "<" << i.key() << ">" << i.value() << "</" << i.key() << ">" ;
+	QFile file(confFile);
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+		return;
+
+	QTextStream out(&file);
+	out << "<torrentlibre>\n";
+
+	QString key ;
+	qDebug() << "asking for lock read" ;
+	lock.lockForRead() ;
+	qDebug() << "lock got" ;
+	QList<QString> keyList = properties.keys() ;
+	foreach(key,keyList) {
+		out << "\t<" << key << ">" << properties.value(key) << "</" << key << ">\n" ;
 	}
+	qDebug() << "releasing lock" ;
 	lock.unlock() ;
+	qDebug() << "lock released" ;
+	out << "</torrentlibre>\n";
+	file.close() ;
 }
 
 void QalfConfig::load() {
+	QFile * file = new QFile(confFile);
+	
+	QXmlSimpleReader xmlReader;
+	QXmlInputSource *source = new QXmlInputSource(file);
 
+	QalfXmlConfigHandler *handler = new QalfXmlConfigHandler(this);
+	xmlReader.setContentHandler(handler);
+	xmlReader.setErrorHandler(handler);
+
+	bool ok = xmlReader.parse(source);
+
+	if (!ok)
+		qDebug() << "Parsing failed." ;
+}
+
+QalfConfig::QalfXmlConfigHandler::QalfXmlConfigHandler(QalfConfig * configObject) : QXmlDefaultHandler(), currentProp("") {
+	this->configObject = configObject ;
+}
+
+bool QalfConfig::QalfXmlConfigHandler::startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts) {
+	Q_UNUSED(namespaceURI) ;
+	Q_UNUSED(qName) ;
+	Q_UNUSED(atts) ;
+	if(localName != "torrentlibre") currentProp = localName ;
+	return true ;
+}
+
+bool QalfConfig::QalfXmlConfigHandler::characters(const QString & ch) {
+	if(currentProp != "") {
+		QString value(ch) ;
+		configObject->setProperty(currentProp,value) ;
+		currentProp = "" ;
+	}
+	return true ;
 }

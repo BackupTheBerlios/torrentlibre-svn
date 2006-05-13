@@ -13,7 +13,7 @@
 #include "treeitem.h"
 #include <QIcon>
 
-QalfImageTreeModel::QalfImageTreeModel(QalfDb * database) : QalfTreeModel(database) {
+QalfImageTreeModel::QalfImageTreeModel() : QalfTreeModel() {
 
 }
 

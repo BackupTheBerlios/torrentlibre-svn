@@ -14,8 +14,8 @@
 #include "treeitem.h"
 #include "qalftreemodel.h"
 
-QalfTreeModel::QalfTreeModel(QalfDb * database, QObject *parent) : QAbstractItemModel(parent) {
-	this->db = database ;
+QalfTreeModel::QalfTreeModel(QObject *parent) : QAbstractItemModel(parent) {
+	this->db = QalfDb::getDbObject() ;
 	QList<QVariant> rootData;
 	rootData << "Title" ;
 	rootItem = new TreeItem(rootData);

@@ -11,31 +11,32 @@
 
 #ifndef QalfDB_H
 #define QalfDB_H
-#include <QThread>
+// #include <QThread>
 #include <QtDebug>
-#include <sqlite3.h>
+// #include <sqlite3.h>
 #include <QHash>
-
+#include <QtSql>
 #include <QList>
 
-class QalfDb : public QThread {
+class QalfDb : public QObject {
 	Q_OBJECT
 	
 	public:
-		QalfDb(const QString & dbFile) ;
-		~QalfDb() ;
-		void run();
-		bool open() ;
+		static QalfDb * getDbObject() ;
+// 		void run();
+		bool create() ;
 		
 		QList<QHash<QString,QString> *> * selectAllByMedia(QString & media) ;
 		
 	public slots:
 		void close() ;
-		void closeAndExit() ;
 	
 	protected:
-		QString dbFile ;
-		sqlite3 *db;
+		static QalfDb * dbObject ;
+		QSqlDatabase db ;
+
+		QalfDb() ;
+		~QalfDb() ;
 		
 };
 

@@ -23,7 +23,7 @@ class QalfImageTreeModel : public QalfTreeModel {
 	Q_OBJECT
 
 	public:
-		QalfImageTreeModel(QalfDb * database) ;
+		QalfImageTreeModel() ;
 		QVariant data(const QModelIndex &index, int role) const ;
 		void loadData() ;
 };
