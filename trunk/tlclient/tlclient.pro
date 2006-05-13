@@ -58,5 +58,3 @@ SOURCES += tlclient.cpp \
            qalfimagefile.cpp \
            qalffile.cpp \
            qalfmoderatordialog.cpp
-
-LIBS += -lsqlite3 -L/usr/lib
