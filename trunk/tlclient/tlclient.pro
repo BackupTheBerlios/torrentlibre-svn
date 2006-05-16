@@ -44,7 +44,9 @@ HEADERS += qalfmainwindow.h \
            qalfimagetreemodel.h \
            qalfimagefile.h \
            qalffile.h \
-           qalfmoderatordialog.h
+           qalfmoderatordialog.h \
+           qalfcrypto.h \
+           qalfpassworddialog.h
 
 SOURCES += tlclient.cpp \
            qalfmainwindow.cpp \
@@ -57,4 +59,8 @@ SOURCES += tlclient.cpp \
            qalfimagetreemodel.cpp \
            qalfimagefile.cpp \
            qalffile.cpp \
-           qalfmoderatordialog.cpp
+           qalfmoderatordialog.cpp \
+           qalfcrypto.cpp \
+           qalfpassworddialog.cpp
+
+LIBS += -lgpgme

@@ -83,6 +83,18 @@ void QalfMainWindow::createMenu() {
 	configMenu->addAction(prefAction) ;
 	configMenu->addAction(moderatorModeAction) ;
 	configMenu->addAction(moderatorDialogAction) ;
+
+	aboutTlAction = new QAction(tr("About &TorrentLibre"), this);
+	aboutTlAction->setStatusTip(tr("Information about TorrentLibre"));
+	connect(aboutTlAction, SIGNAL(triggered()), this, SLOT(aboutTl()));
+
+	aboutQtAction = new QAction(tr("About &Qt"), this);
+	aboutQtAction->setStatusTip(tr("Information about Qt"));
+	connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
+	helpMenu = this->menuBar()->addMenu(tr("&Help")) ;
+	helpMenu->addAction(aboutTlAction) ;
+	helpMenu->addAction(aboutQtAction) ;
 }
 
 void QalfMainWindow::setImageModel(QalfImageTreeModel * imageTreeModel) {
@@ -113,4 +125,8 @@ void QalfMainWindow::saveModeratorMode() {
 	else value = "disabled" ;
 	configObject->setProperty(key,value) ;
 	configObject->save() ;
+}
+
+void QalfMainWindow::aboutTl() {
+	QMessageBox::about(this,tr("About TorrentLibre"),tr("TorrentLibre %1\n\nThis program has been written by Francois Gaudin <alf@bordel-ambiant.org>\n\nSplash screen has been drawn by Maxime Riviere").arg(TLVERSION)) ;
 }

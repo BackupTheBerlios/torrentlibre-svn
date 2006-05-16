@@ -9,37 +9,25 @@
 **
 ********************************************************/
 
-#ifndef QalfMODERATORDIALOG_H
-#define QalfMODERATORDIALOG_H
+#ifndef QalfPASSWORDDIALOG_H
+#define QalfPASSWORDDIALOG_H
 
 #include <QtGui>
 
-class QalfModeratorDialog : public QDialog {
+class QalfPasswordDialog : public QDialog {
 	Q_OBJECT
 	
 	public:
-		QalfModeratorDialog(QWidget * parent = 0) ;
+		QalfPasswordDialog(QString &label, QWidget * parent = 0) ;
+		QString getPassword() const ;
 	
-	protected slots:
-		void generateKeys() ;
-		void savePref() ;
-
 	protected:
-		QLabel * usernameLabel ;
-		QLabel * emailLabel ;
-		QLabel * keyLabel ;
-		QLabel * keyStatusLabel ;
-		QLineEdit * usernameValue ;
-		QLineEdit * emailValue ;
-		QLabel * keyValue ;
-		QLabel * keyStatusValue ;
-		QGridLayout * infoLayout ;
-		QPushButton * generateKeyButton ;
-		QPushButton * exportKeyButton ;
+		QLabel * passwordLabel ;
+		QLineEdit * passwordValue ;
 		QPushButton * okButton ;
 		QPushButton * cancelButton ;
 		QHBoxLayout * buttonLayout ;
 		QVBoxLayout * vlayout ;
 };
 
-#endif // QalfMODERATORDIALOG_H
+#endif // QalfPASSWORDDIALOG_H

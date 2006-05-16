@@ -31,6 +31,7 @@ class QalfMainWindow : public QMainWindow {
 		void showModeratorDialog() ;
 		void openImage(const QModelIndex & index) ;
 		void saveModeratorMode() ;
+		void aboutTl() ;
 
 	private:
 		void createMenu() ;
@@ -53,6 +54,9 @@ class QalfMainWindow : public QMainWindow {
 		QAction * moderatorModeAction ;
 		QAction * moderatorDialogAction ;
 
+		QMenu *helpMenu ;
+		QAction *aboutTlAction ;
+		QAction *aboutQtAction ;
 };
 
 #endif // QalfMAINWINDOW_H
