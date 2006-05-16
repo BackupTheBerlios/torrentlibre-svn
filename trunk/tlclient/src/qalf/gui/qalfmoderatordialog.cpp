@@ -20,37 +20,42 @@ QalfModeratorDialog::QalfModeratorDialog(QWidget * parent) : QDialog(parent),gen
 	QString keyProperty("moderatorKey") ;
 	QString key = configObject->getProperty(keyProperty) ;
 
-	setMinimumSize(QSize(300,100)) ;
+	setMinimumSize(QSize(300,150)) ;
 	setWindowTitle(tr("Moderator configuration")) ;
-	usernameLabel = new QLabel(tr("Username : ")) ;
+	usernameLabel = new QLabel(tr("Name : ")) ;
 	QString usernameProperty("username") ;
 	usernameValue = new QLineEdit(configObject->getProperty(usernameProperty)) ;
-	if(key != "") {
-		usernameValue->setReadOnly(true) ;
-		usernameValue->setEnabled(false) ;
-	}
+
 	emailLabel = new QLabel(tr("Email : ")) ;
 	QString emailProperty("email") ;
 	emailValue = new QLineEdit(configObject->getProperty(emailProperty)) ;
-	if(key != "") {
-		emailValue->setReadOnly(true) ;
-		emailValue->setEnabled(false) ;
-		keyLabel = new QLabel(tr("Key : ")) ;
-		keyValue = new QLabel(key) ;
-		keyStatusLabel = new QLabel(tr("Key status : ")) ;
-		keyStatusValue = new QLabel() ;
-	}
+
+	keyLabel = new QLabel(tr("Key : ")) ;
+	keyValue = new QLabel(key) ;
+	keyStatusLabel = new QLabel(tr("Key status : ")) ;
+	keyStatusValue = new QLabel() ;
 	infoLayout = new QGridLayout() ;
 	infoLayout->addWidget(usernameLabel,0,0,1,1,Qt::AlignRight) ;
 	infoLayout->addWidget(usernameValue,0,1) ;
 	infoLayout->addWidget(emailLabel,1,0,1,1,Qt::AlignRight) ;
 	infoLayout->addWidget(emailValue,1,1) ;
-	if(key != "") {
-		infoLayout->addWidget(keyLabel,2,0,1,1,Qt::AlignRight) ;
-		infoLayout->addWidget(keyValue,2,1) ;
-		infoLayout->addWidget(keyStatusLabel,3,0,1,1,Qt::AlignRight) ;
-		infoLayout->addWidget(keyStatusValue,3,1) ;
-	}
+	infoLayout->addWidget(keyLabel,2,0,1,1,Qt::AlignRight) ;
+	infoLayout->addWidget(keyValue,2,1) ;
+	infoLayout->addWidget(keyStatusLabel,3,0,1,1,Qt::AlignRight) ;
+	infoLayout->addWidget(keyStatusValue,3,1) ;
+
+	vlayout = new QVBoxLayout(this) ;
+	vlayout->addLayout(infoLayout) ;
+	generateKeyButton = new QPushButton(tr("Generate keys")) ;
+	connect(generateKeyButton,SIGNAL(clicked()),this,SLOT(savePref())) ;
+	connect(generateKeyButton,SIGNAL(clicked()),this,SLOT(generateKeys())) ;
+	vlayout->addWidget(generateKeyButton) ;
+
+	exportKeyButton = new QPushButton(tr("Send key to server")) ;
+	vlayout->addWidget(exportKeyButton) ;
+	deleteKeyButton = new QPushButton(tr("Delete key")) ;
+	vlayout->addWidget(deleteKeyButton) ;
+	vlayout->addStretch() ;
 
 	okButton = new QPushButton(tr("Ok")) ;
 	okButton->setAutoDefault(true) ;
@@ -62,32 +67,10 @@ QalfModeratorDialog::QalfModeratorDialog(QWidget * parent) : QDialog(parent),gen
 	buttonLayout->addStretch() ;
 	buttonLayout->addWidget(okButton) ;
 	buttonLayout->addWidget(cancelButton) ;
-	
-	vlayout = new QVBoxLayout(this) ;
-	vlayout->addLayout(infoLayout) ;
-	if(key == "") {
-		generateKeyButton = new QPushButton(tr("Generate keys")) ;
-		connect(generateKeyButton,SIGNAL(clicked()),this,SLOT(generateKeys())) ;
-		vlayout->addWidget(generateKeyButton) ;
-	} else {
-		QalfCrypto crypto ;
-		if(crypto.checkKeyAuthorization(key)) {
-			QPalette palette = keyStatusValue->palette() ;
-			palette.setColor(QPalette::WindowText,Qt::green) ;
-			keyStatusValue->setPalette(palette) ;
-			keyStatusValue->setText(tr("Key accepted")) ;
-		} else {
-			QPalette palette = keyStatusValue->palette() ;
-			palette.setColor(QPalette::WindowText,Qt::red) ;
-			keyStatusValue->setPalette(palette) ;
-			keyStatusValue->setText(tr("Key not trusted")) ;
-			exportKeyButton = new QPushButton(tr("Send key to server")) ;
-			vlayout->addWidget(exportKeyButton) ;
-		}
-	}
-	vlayout->addStretch() ;
 	vlayout->addLayout(buttonLayout) ;
 	setLayout(vlayout) ;
+
+	switchTo() ;
 }
 
 void QalfModeratorDialog::generateKeys() {
@@ -95,7 +78,7 @@ void QalfModeratorDialog::generateKeys() {
 
 	QString username = usernameValue->text() ;
 	if(username == "") {
-		QMessageBox::warning(this,tr("Username missing !"), tr("Please fill the username field")) ;
+		QMessageBox::warning(this,tr("Name missing !"), tr("Please fill the name field")) ;
 	} else {
 		QString email = emailValue->text() ;
 		if(email == "") {
@@ -111,7 +94,8 @@ void QalfModeratorDialog::generateKeys() {
 				QString keyProperty("moderatorKey") ;
 				configObject->setProperty(keyProperty,key) ;
 				configObject->save() ;
-				vlayout->removeWidget(generateKeyButton) ;
+				keyValue->setText(key) ;
+				switchTo() ;
 			}
 		}
 	}
@@ -127,4 +111,71 @@ void QalfModeratorDialog::savePref() {
 	QString emailKey("email") ;
 	configObject->setProperty(emailKey,email) ;
 	configObject->save() ;
+}
+
+void QalfModeratorDialog::switchTo() {
+	QalfConfig * configObject = QalfConfig::getConfigObject() ;
+	QString keyProperty("moderatorKey") ;
+	QString key = configObject->getProperty(keyProperty) ;
+
+	if(key == "") {
+		switchToGenerateKey() ;
+	} else {
+		QalfCrypto crypto ;
+		if(crypto.checkKeyAuthorization(key)) {
+			switchToDeleteKey() ;
+		} else {
+			switchToExportKey() ;
+		}
+	}
+}
+
+void QalfModeratorDialog::switchToGenerateKey() {
+	usernameValue->setReadOnly(false) ;
+	usernameValue->setEnabled(true) ;
+	emailValue->setReadOnly(false) ;
+	emailValue->setEnabled(true) ;
+	keyLabel->setVisible(false) ;
+	keyValue->setVisible(false) ;
+	keyStatusLabel->setVisible(false) ;
+	keyStatusValue->setVisible(false) ;
+	generateKeyButton->setVisible(true) ;
+	exportKeyButton->setVisible(false) ;
+	deleteKeyButton->setVisible(false) ;
+}
+
+void QalfModeratorDialog::switchToExportKey() {
+	usernameValue->setReadOnly(true) ;
+	usernameValue->setEnabled(false) ;
+	emailValue->setReadOnly(true) ;
+	emailValue->setEnabled(false) ;
+	keyLabel->setVisible(true) ;
+	keyValue->setVisible(true) ;
+	keyStatusLabel->setVisible(true) ;
+	keyStatusValue->setVisible(true) ;
+	generateKeyButton->setVisible(false) ;
+	exportKeyButton->setVisible(true) ;
+	deleteKeyButton->setVisible(false) ;
+	QPalette palette = keyStatusValue->palette() ;
+	palette.setColor(QPalette::WindowText,Qt::red) ;
+	keyStatusValue->setPalette(palette) ;
+	keyStatusValue->setText(tr("Key not trusted")) ;
+}
+
+void QalfModeratorDialog::switchToDeleteKey() {
+	usernameValue->setReadOnly(true) ;
+	usernameValue->setEnabled(false) ;
+	emailValue->setReadOnly(true) ;
+	emailValue->setEnabled(false) ;
+	keyLabel->setVisible(true) ;
+	keyValue->setVisible(true) ;
+	keyStatusLabel->setVisible(true) ;
+	keyStatusValue->setVisible(true) ;
+	generateKeyButton->setVisible(false) ;
+	exportKeyButton->setVisible(false) ;
+	deleteKeyButton->setVisible(true) ;
+	QPalette palette = keyStatusValue->palette() ;
+	palette.setColor(QPalette::WindowText,Qt::green) ;
+	keyStatusValue->setPalette(palette) ;
+	keyStatusValue->setText(tr("Key accepted")) ;
 }

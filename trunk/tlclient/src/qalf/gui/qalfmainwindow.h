@@ -16,6 +16,7 @@
 #include "qalfsearchwidget.h"
 #include "qalfimagewidget.h"
 #include "qalfimagetreemodel.h"
+#include "qalfmoderatorwidget.h"
 
 class QalfMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -29,6 +30,7 @@ class QalfMainWindow : public QMainWindow {
 	
 	private slots:
 		void showModeratorDialog() ;
+		void setModeratorWidgetVisible(bool visible) ;
 		void openImage(const QModelIndex & index) ;
 		void saveModeratorMode() ;
 		void aboutTl() ;
@@ -41,7 +43,8 @@ class QalfMainWindow : public QMainWindow {
 		QTabWidget * gTabActions ;
 		QalfSearchWidget * gSearchTab ;
 		QalfImageWidget * gImageTab ;
-		
+		QalfModeratorWidget * gModeratorTab ;
+
 		QTreeView * gMusicTree ;
 		QTreeView * gImageTree ;
 		QTreeView * gTextTree ;

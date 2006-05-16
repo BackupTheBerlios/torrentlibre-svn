@@ -46,7 +46,8 @@ HEADERS += qalfmainwindow.h \
            qalffile.h \
            qalfmoderatordialog.h \
            qalfcrypto.h \
-           qalfpassworddialog.h
+           qalfpassworddialog.h \
+           qalfmoderatorwidget.h
 
 SOURCES += tlclient.cpp \
            qalfmainwindow.cpp \
@@ -61,6 +62,7 @@ SOURCES += tlclient.cpp \
            qalffile.cpp \
            qalfmoderatordialog.cpp \
            qalfcrypto.cpp \
-           qalfpassworddialog.cpp
+           qalfpassworddialog.cpp \
+           qalfmoderatorwidget.cpp
 
 LIBS += -lgpgme

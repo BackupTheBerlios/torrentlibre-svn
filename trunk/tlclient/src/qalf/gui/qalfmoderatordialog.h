@@ -36,10 +36,17 @@ class QalfModeratorDialog : public QDialog {
 		QGridLayout * infoLayout ;
 		QPushButton * generateKeyButton ;
 		QPushButton * exportKeyButton ;
+		QPushButton * deleteKeyButton ;
 		QPushButton * okButton ;
 		QPushButton * cancelButton ;
 		QHBoxLayout * buttonLayout ;
 		QVBoxLayout * vlayout ;
+
+		void switchTo() ;
+		void switchToGenerateKey() ;
+		void switchToExportKey() ;
+		void switchToDeleteKey() ;
+		void switchToNoKey() ;
 };
 
 #endif // QalfMODERATORDIALOG_H

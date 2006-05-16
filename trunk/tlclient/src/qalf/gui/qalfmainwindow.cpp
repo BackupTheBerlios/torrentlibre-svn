@@ -15,7 +15,6 @@
 #include "qalfconfig.h"
 
 QalfMainWindow::QalfMainWindow() {
-	createMenu() ;
 	QSplitter * centralWidget = new QSplitter(this) ;
 	
 	gLibrary = new QToolBox(centralWidget) ;
@@ -32,11 +31,19 @@ QalfMainWindow::QalfMainWindow() {
 	gTabActions->addTab(gSearchTab,QIcon(":/icons/viewmag.png"),tr("Search")) ;
 	gImageTab = new QalfImageWidget() ;
 	gTabActions->addTab(gImageTab,QIcon(":/icons/imagegallery.png"),tr("Look")) ;
+	gModeratorTab = new QalfModeratorWidget() ;
 	
+	QalfConfig * configObject = QalfConfig::getConfigObject() ;
+	QString property("moderatorMode") ;
+	if(configObject->getProperty(property) == "enabled") {
+		gTabActions->addTab(gModeratorTab,QIcon(":/icons/vcs_commit.png"),tr("Submit")) ;
+	}
 	centralWidget->addWidget(gLibrary) ;
 	centralWidget->addWidget(gTabActions) ;
 	
 	this->setCentralWidget(centralWidget) ;
+
+	createMenu() ;
 	
 	connect(gImageTree,SIGNAL(clicked(QModelIndex)),this,SLOT(openImage(QModelIndex))) ;
 	connect(this,SIGNAL(imageChanged(QString)),gImageTab,SLOT(setImage(QString))) ;
@@ -74,8 +81,9 @@ void QalfMainWindow::createMenu() {
 		moderatorModeAction->setChecked(false) ;
 		moderatorDialogAction->setVisible(false) ;
 	}
-	
+
 	connect(moderatorModeAction, SIGNAL(toggled(bool)), moderatorDialogAction, SLOT(setVisible(bool)));
+	connect(moderatorModeAction, SIGNAL(toggled(bool)), this, SLOT(setModeratorWidgetVisible(bool)));
 	connect(moderatorModeAction, SIGNAL(toggled(bool)), this, SLOT(saveModeratorMode()));
 	connect(moderatorDialogAction, SIGNAL(triggered()), this, SLOT(showModeratorDialog()));
 
@@ -105,6 +113,14 @@ void QalfMainWindow::showModeratorDialog() {
 	QalfModeratorDialog dialogBox ;
 	dialogBox.exec() ;
 	qDebug() << "dialog closed" ;
+}
+
+void QalfMainWindow::setModeratorWidgetVisible(bool visible) {
+	if(visible) {
+		gTabActions->addTab(gModeratorTab,QIcon(":/icons/vcs_commit.png"),tr("Submit")) ;
+	} else {
+		gTabActions->removeTab(gTabActions->count()-1) ;
+	}
 }
 
 void QalfMainWindow::openImage(const QModelIndex & index) {
