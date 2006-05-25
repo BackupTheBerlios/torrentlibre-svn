@@ -13,6 +13,7 @@
 #define QalfMODERATORWIDGET_H
 
 #include <QtGui>
+#include "qalfimageinfowidget.h"
 
 class QalfModeratorWidget : public QWidget {
 	Q_OBJECT
@@ -20,9 +21,34 @@ class QalfModeratorWidget : public QWidget {
 	public:
 		QalfModeratorWidget(QWidget * parent = 0) ;
 	
+	public slots:
+		void checkKey() ;
+
+	protected slots:
+		void openFile() ;
+		void sendTorrent() ;
+
 	protected:
 		QLabel * noKeySetLabel ;
+		QLabel * fileLabel ;
+		QLineEdit * fileValue ;
+		QPushButton * openFileButton ;
+		QHBoxLayout * fileLayout ;
 		
+		QLabel * titleLabel ;
+		QLineEdit * titleValue ;
+		QLabel * authorsLabel ;
+		QLineEdit * authorsValue ;
+		QLabel * licenseLabel ;
+		QComboBox * licenseValue ;
+		QLabel * keywordsLabel ;
+		QLineEdit * keywordsValue ;
+
+		QStackedWidget * mediumInfo ;
+		
+		QPushButton * sendButton ;
+
+		QHBoxLayout * buttonLayout ;
 		QVBoxLayout * vlayout ;
 };
 

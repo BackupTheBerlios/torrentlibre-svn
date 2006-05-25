@@ -16,6 +16,8 @@
 #include <QObject>
 #include <QStringList>
 
+gpgme_error_t passphrase_callback(void *hook, const char *uid_int, const char *passphrase_info, int prev_was_bad, int fd) ;
+
 class QalfCrypto : public QObject {
 	Q_OBJECT
 
@@ -24,6 +26,7 @@ class QalfCrypto : public QObject {
 		~QalfCrypto() ;
 		QString generateKeyPair(QString &username, QString &email,QString &passphrase) ;
 		bool checkKeyAuthorization(QString &key) ;
+		QString sign(QString &message, QString &key) ;
 
 	protected:
 		gpgme_ctx_t context ;

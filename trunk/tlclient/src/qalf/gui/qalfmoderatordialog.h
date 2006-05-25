@@ -24,6 +24,9 @@ class QalfModeratorDialog : public QDialog {
 		void generateKeys() ;
 		void savePref() ;
 
+	signals:
+		void keyCreated() ;
+
 	protected:
 		QLabel * usernameLabel ;
 		QLabel * emailLabel ;

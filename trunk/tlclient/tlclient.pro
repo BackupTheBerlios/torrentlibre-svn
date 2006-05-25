@@ -20,13 +20,15 @@ DEPENDPATH += . \
               src/qalf/core \
               src/qalf/gui \
               src/qalf/image \
-              src/3rd_party/libtorrent-0.9.1
+              src/qalf/torrent \
+              src/3rd_party/libtorrent-0.9.1/include
 
 INCLUDEPATH += . \
                src/qalf/core \
                src/qalf/gui \
                src/qalf/image \
-               src/3rd_party/libtorrent-0.9.1
+               src/qalf/torrent \
+               src/3rd_party/libtorrent-0.9.1/include
 
 DESTDIR += bin
 OBJECTS_DIR = obj
@@ -39,6 +41,7 @@ HEADERS += qalfmainwindow.h \
            qalfconfig.h \
            qalfsearchwidget.h \
            qalfimagewidget.h \
+           qalfimageinfowidget.h \
            qalftreemodel.h \
            treeitem.h \
            qalfimagetreemodel.h \
@@ -47,7 +50,9 @@ HEADERS += qalfmainwindow.h \
            qalfmoderatordialog.h \
            qalfcrypto.h \
            qalfpassworddialog.h \
-           qalfmoderatorwidget.h
+           qalfmoderatorwidget.h \
+           qalftorrentmaker.h \
+           qalfnetwork.h
 
 SOURCES += tlclient.cpp \
            qalfmainwindow.cpp \
@@ -55,6 +60,7 @@ SOURCES += tlclient.cpp \
            qalfconfig.cpp \
            qalfsearchwidget.cpp \
            qalfimagewidget.cpp \
+           qalfimageinfowidget.cpp \
            qalftreemodel.cpp \
            treeitem.cpp \
            qalfimagetreemodel.cpp \
@@ -63,6 +69,8 @@ SOURCES += tlclient.cpp \
            qalfmoderatordialog.cpp \
            qalfcrypto.cpp \
            qalfpassworddialog.cpp \
-           qalfmoderatorwidget.cpp
+           qalfmoderatorwidget.cpp \
+           qalftorrentmaker.cpp \
+           qalfnetwork.cpp
 
-LIBS += -lgpgme
+LIBS += -lgpgme -lboost_filesystem -lboost_program_options -lboost_date_time -lboost_thread -Wl,-rpath /usr/local/lib -L/usr/local/lib -ltorrent

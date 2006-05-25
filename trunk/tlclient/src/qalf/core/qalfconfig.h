@@ -18,17 +18,19 @@
 #include <QtXml>
 
 #define TLVERSION 0.1
+#define TL_DIR "tlclient"
+#define TORRENT_DIR "torrent"
 
 #ifdef Q_WS_X11
-#define TL_DIR ".torrentlibre"
+#define TL_CONF_DIR ".torrentlibre"
 #endif
 
 #ifdef Q_WS_WIN
-#define TL_DIR "torrentlibre"
+#define TL_CONF_DIR "torrentlibre"
 #endif
 
 #ifdef Q_WS_X11
-#define TL_DIR ".torrentlibre"
+#define TL_CONF_DIR ".torrentlibre"
 #endif
 
 #define DB_FILE "tl.db"

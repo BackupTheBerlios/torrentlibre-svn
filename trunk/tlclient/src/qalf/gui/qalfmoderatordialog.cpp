@@ -95,6 +95,7 @@ void QalfModeratorDialog::generateKeys() {
 				configObject->setProperty(keyProperty,key) ;
 				configObject->save() ;
 				keyValue->setText(key) ;
+				emit keyCreated() ;
 				switchTo() ;
 			}
 		}

@@ -13,5 +13,7 @@
 		<file>icons/viewmagfit.png</file>
 		<file>icons/splash.png</file>
 		<file>icons/vcs_commit.png</file>
+		<file>icons/vcs_add.png</file>
+		<file>icons/folder_open.png</file>
 	</qresource>
 </RCC>

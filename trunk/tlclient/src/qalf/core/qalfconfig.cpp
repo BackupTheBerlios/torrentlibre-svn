@@ -25,10 +25,17 @@ QalfConfig * QalfConfig::getConfigObject() {
 
 QalfConfig::QalfConfig() {
 	QDir current_dir = QDir::home() ;
-	if(!current_dir.exists(TL_DIR)) {
-		current_dir.mkdir(TL_DIR) ;
+	QString tlDirProperty("tlDir") ;
+	QString tlDir = current_dir.canonicalPath()+QString(QDir::separator())+QString(TL_DIR) ;
+	setProperty(tlDirProperty,tlDir) ;
+	QString torrentDirProperty("torrentDir") ;
+	QString torrentDir = tlDir+QString(QDir::separator())+QString(TORRENT_DIR) ;
+	setProperty(torrentDirProperty,torrentDir) ;
+
+	if(!current_dir.exists(TL_CONF_DIR)) {
+		current_dir.mkdir(TL_CONF_DIR) ;
 	}
-	current_dir.cd(TL_DIR) ;
+	current_dir.cd(TL_CONF_DIR) ;
 	this->configDir = current_dir.canonicalPath() ;
 	this->dbFile = current_dir.absoluteFilePath(DB_FILE) ;
 	this->confFile = current_dir.absoluteFilePath(CONF_FILE) ;

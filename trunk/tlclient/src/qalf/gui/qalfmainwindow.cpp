@@ -111,6 +111,7 @@ void QalfMainWindow::setImageModel(QalfImageTreeModel * imageTreeModel) {
 
 void QalfMainWindow::showModeratorDialog() {
 	QalfModeratorDialog dialogBox ;
+	connect(&dialogBox,SIGNAL(keyCreated()),gModeratorTab,SLOT(checkKey())) ;
 	dialogBox.exec() ;
 	qDebug() << "dialog closed" ;
 }

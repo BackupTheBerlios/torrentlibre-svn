@@ -11,6 +11,7 @@
 
 #include "qalfcrypto.h"
 #include <QtDebug>
+#include "qalfpassworddialog.h"
 
 QalfCrypto::QalfCrypto() {
 	gpgme_error_t result = gpgme_new(&context) ;
@@ -30,54 +31,49 @@ QString QalfCrypto::generateKeyPair(QString &username, QString &email,QString &p
 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
 	gpgme_genkey_result_t keys = gpgme_op_genkey_result(context) ;
 	return QString(keys->fpr) ;
-	
-	
-// 	gpgme_data_t keydata ;
-// 	result = gpgme_data_new(&keydata) ;
-// 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
-// 	result = gpgme_op_export(context,NULL,0,keydata) ;
-// 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
-// 	
-// 	int total = 0;
-// 	int length = 1024 ;
-// 	char buffer[length] ;
-// 	char * keyBuffer = NULL ;
-// 	ssize_t read ;
-// 	read = gpgme_data_read(keydata,buffer,length) ;
-// 	qDebug() << "read =" << read ;
-// 	while(read != 0) {
-// 		keyBuffer = (char*) realloc(keyBuffer,sizeof(char)*(total+read)) ;
-// 		memcpy(buffer,keyBuffer+(sizeof(char)*total),read) ;
-// 		total += read ;
-// 		read = gpgme_data_read(keydata,&buffer,length) ;
-// 	}
-// 	keyBuffer = (char*) realloc(keyBuffer,sizeof(char)*(total+length)) ;
-// 	memcpy(buffer,keyBuffer+(sizeof(char)*total),length) ;
-// 	
-// 	QString pubKey(keyBuffer) ;
-// 	delete(keyBuffer) ;
-
-	// getting private key
-// 	result = gpgme_op_keylist_start(context,NULL,1) ;
-// 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
-// 	gpgme_key_t key ;
-// 	result = gpgme_op_keylist_next(context,&key) ;
-// 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
-// 	qDebug() << "can sign" << key->can_sign ;
-// 	gpgme_subkey_t subkey = key->subkeys ;
-// 	qDebug() << "secret" << subkey->secret ;
-// 	qDebug() << "can sign" << subkey->can_sign ;
-// 	qDebug() << "keyid" << subkey->keyid ;
-// 	qDebug() << "fpr" << subkey->fpr ;
-// 	subkey = subkey->next ;
-// 	qDebug() << "secret" << subkey->secret ;
-// 	qDebug() << "can sign" << subkey->can_sign ;
-// 	qDebug() << "keyid" << subkey->keyid ;
-// 	qDebug() << "fpr" << subkey->fpr ;
 }
 
 bool QalfCrypto::checkKeyAuthorization(QString &key) {
 	return false ;
+}
+
+QString QalfCrypto::sign(QString &message, QString &key) {
+	gpgme_set_passphrase_cb(context,&passphrase_callback,NULL) ;
+	gpgme_signers_clear(context) ;
+
+	// retrieving key
+	gpgme_key_t gpgkey ;
+	gpgme_error_t result = gpgme_get_key(context, key.toLocal8Bit(),&gpgkey,true) ;
+	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
+	Q_ASSERT(gpgkey != NULL) ;
+
+	// signing
+	result = gpgme_signers_add(context,gpgkey) ;
+	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
+	gpgme_data_t signature ;
+	result = gpgme_data_new(&signature);
+	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
+
+	gpgme_data_t msg ;
+	result = gpgme_data_new_from_mem(&msg,message.toLocal8Bit(),message.size(),0) ;
+	
+	
+	result = gpgme_op_sign(context, msg,signature, GPGME_SIG_MODE_DETACH) ;
+	Q_ASSERT(result == GPG_ERR_NO_ERROR || result == GPG_ERR_BAD_PASSPHRASE || result == GPG_ERR_CANCELED) ;
+
+	QString signatureStr ;
+	char  * buffer = (char *) calloc(1024,sizeof(char)) ;
+	gpgme_data_rewind(signature) ;
+// should be the following, but for a fucking mysterious reason, it doesn't want to work
+// 	gpgme_data_seek(signature,0,SEEK_SET) ;
+	gpgme_data_read(signature,buffer,1024) ;
+
+	signatureStr += buffer ;
+
+	gpgme_data_release(signature) ;
+	gpgme_key_unref(gpgkey) ;
+	gpgme_data_release(msg) ;
+	return signatureStr ;
 }
 
 QString QalfCrypto::getKeyParams(QString &username, QString &email,QString &passphrase) {
@@ -93,4 +89,20 @@ QString QalfCrypto::getKeyParams(QString &username, QString &email,QString &pass
 								"Passphrase: %3\n"
 								"</GnupgKeyParms>").arg(username).arg(email).arg(passphrase) ;
 	return param ;
+}
+
+gpgme_error_t passphrase_callback(void *hook, const char *uid_int, const char *passphrase_info, int prev_was_bad, int fd) {
+	QString label(QObject::tr("Please enter your password :"));
+	QalfPasswordDialog passwordBox(label) ;
+	int result = passwordBox.exec() ;
+	if(result == QDialog::Accepted) {
+		QString password = passwordBox.getPassword() ;
+		QFile file ;
+		if(file.open(fd,QIODevice::WriteOnly | QIODevice::Text)) {
+			QTextStream out(&file) ;
+			out << password << "\n" ;
+			return GPG_ERR_NO_ERROR ;
+		}
+	}
+	return GPG_ERR_CANCELED ;
 }
