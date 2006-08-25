@@ -22,7 +22,7 @@ void QalfServerThread::run() {
 			return;
 	}
 
-	QString packet = getPacket(tcpSocket) ;
+	QByteArray packet = getPacket(tcpSocket) ;
 	qDebug() << packet ;
 	parse(packet) ;
 
@@ -30,9 +30,9 @@ void QalfServerThread::run() {
 	tcpSocket.waitForDisconnected();
 }
 
-QString QalfServerThread::getPacket(QTcpSocket &socket) {
+QByteArray QalfServerThread::getPacket(QTcpSocket &socket) {
 	qDebug() << socket.peerAddress().toString() ;
-	QString packet ;
+	QByteArray packet ;
 	QDataStream in(&socket);
 	in.setVersion(QDataStream::Qt_4_0);
 	quint16 blockSize = 0 ;
@@ -48,6 +48,7 @@ QString QalfServerThread::getPacket(QTcpSocket &socket) {
 	while (socket.bytesAvailable() < (int)sizeof(quint16)) {
 		qDebug() << "bytes available" << socket.bytesAvailable() ;
 		if (!socket.waitForReadyRead(1000)) {
+			qDebug() << socket.errorString() ;
 			emit error(socket.error());
 			return packet;
 		}
@@ -58,13 +59,13 @@ QString QalfServerThread::getPacket(QTcpSocket &socket) {
 	qDebug() << "blocksize" << blockSize ;
 
 	// looping until buffer is full
-	qDebug() << "looping until buffer is full" ;
-	while (socket.bytesAvailable() < blockSize) {
-		if (!socket.waitForReadyRead(10000)) {
-			emit error(socket.error());
-			return packet;
-		}
-	}
+// 	qDebug() << "looping until buffer is full" ;
+// 	while (socket.bytesAvailable() < blockSize) {
+// 		if (!socket.waitForReadyRead(10000)) {
+// 			emit error(socket.error());
+// 			return packet;
+// 		}
+// 	}
 	
 	// reading the packet
 	qDebug() << "reading the packet" ;
@@ -72,6 +73,6 @@ QString QalfServerThread::getPacket(QTcpSocket &socket) {
 	return packet ;
 }
 
-void QalfServerThread::parse(QString &packet) {
+void QalfServerThread::parse(QByteArray &packet) {
 
 }

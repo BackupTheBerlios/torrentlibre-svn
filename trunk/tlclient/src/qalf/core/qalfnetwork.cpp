@@ -13,7 +13,7 @@
 #include <QtDebug>
 #include <QtNetwork>
 #include <QTcpSocket>
-#include <QtTest>
+// #include <QtTest>
 
 QalfNetwork::QalfNetwork() {
 
@@ -34,7 +34,7 @@ bool QalfNetwork::sendKey(QString &username, QString &email, QString &publicKey)
 }
 
 bool QalfNetwork::sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) {
-
+	return false ;
 }
 
 bool QalfNetwork::sendPacket(QByteArray &packet) {
@@ -63,8 +63,12 @@ bool QalfNetwork::sendPacket(QByteArray &packet) {
 	in >> message ;
 	qDebug() << "size" << size ;
 	qDebug() << "message : " << QString(message) ;
-// 	if(socket.waitForConnected(10000))
+	if(socket.waitForConnected(10000))
 	qint64 read = socket.write(block);
+	while(socket.bytesToWrite()) {
+		qDebug() << "BytesToWrite" ;
+		socket.waitForBytesWritten(1000) ;
+	}
 // 	else
 // 		return false ;
 	qDebug() << "read : " << read ;

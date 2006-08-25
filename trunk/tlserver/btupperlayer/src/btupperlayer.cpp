@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
 	signal(SIGTERM,sigterm_handler) ;
 	server.listen(QHostAddress::Any,port) ;
 	while(server.isListening()) {
-		server.waitForNewConnection() ;
+		qDebug() << "waitForNewConnection()" ;
+		server.waitForNewConnection(10000) ;
 	}
 }
