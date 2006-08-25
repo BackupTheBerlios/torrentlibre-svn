@@ -13,6 +13,7 @@
 #include "qalfconfig.h"
 #include "qalfcrypto.h"
 #include "qalfpassworddialog.h"
+#include "qalfnetwork.h"
 #include <QMessageBox>
 
 QalfModeratorDialog::QalfModeratorDialog(QWidget * parent) : QDialog(parent),generateKeyButton(0) {
@@ -52,6 +53,7 @@ QalfModeratorDialog::QalfModeratorDialog(QWidget * parent) : QDialog(parent),gen
 	vlayout->addWidget(generateKeyButton) ;
 
 	exportKeyButton = new QPushButton(tr("Send key to server")) ;
+	connect(exportKeyButton,SIGNAL(clicked()),this,SLOT(sendKey())) ;
 	vlayout->addWidget(exportKeyButton) ;
 	deleteKeyButton = new QPushButton(tr("Delete key")) ;
 	vlayout->addWidget(deleteKeyButton) ;
@@ -101,6 +103,20 @@ void QalfModeratorDialog::generateKeys() {
 		}
 	}
 	
+}
+
+void QalfModeratorDialog::sendKey() {
+	QalfConfig * config = QalfConfig::getConfigObject() ;
+
+	QString username = usernameValue->text() ;
+	QString email = emailValue->text() ;
+	QString keyProp("moderatorKey") ;
+	QString key = config->getProperty(keyProp) ;
+	QalfCrypto crypto ;
+	QString pubKey = crypto.getPublicKey(key) ;
+	QalfNetwork client ;
+	bool sent = client.sendKey(username,email,pubKey) ;
+	switchTo() ;
 }
 
 void QalfModeratorDialog::savePref() {

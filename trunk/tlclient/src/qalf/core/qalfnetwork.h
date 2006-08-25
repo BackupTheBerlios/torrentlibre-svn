@@ -20,7 +20,11 @@ class QalfNetwork : public QObject {
 	public:
 		QalfNetwork() ;
 		~QalfNetwork() ;
-		void sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) ;
+		bool sendKey(QString &username, QString &email, QString &publicKey) ;
+		bool sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) ;
+
+	protected:
+		bool sendPacket(QByteArray &packet) ;
 };
 
 #endif // QalfNETWORK_H

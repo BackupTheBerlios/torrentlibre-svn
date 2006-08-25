@@ -29,6 +29,8 @@ class QalfServerThread : public QThread {
 
 	protected:
 		int socketDescriptor;
+		QString getPacket(QTcpSocket &socket) ;
+		void parse(QString &packet) ;
 };
 
 #endif // QalfSERVERTHREAD_H

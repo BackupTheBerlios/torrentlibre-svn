@@ -13,7 +13,8 @@ QMAKE_EXTRA_TARGETS += libtorrent
 
 TEMPLATE = app
 TARGET = tlclient
-QT += xml sql
+QT += xml sql network
+CONFIG += qtestlib
 
 DEPENDPATH += . \
               src \

@@ -22,18 +22,56 @@ void QalfServerThread::run() {
 			return;
 	}
 
-	QByteArray block;
-	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_4_0);
-	out << (quint16)0;
-	out << "Hello";
-	out.device()->seek(0);
-	out << (quint16)(block.size() - sizeof(quint16));
-
-	tcpSocket.write(block);
-	
-	qDebug() << "incoming connection" ;
+	QString packet = getPacket(tcpSocket) ;
+	qDebug() << packet ;
+	parse(packet) ;
 
 	tcpSocket.disconnectFromHost();
 	tcpSocket.waitForDisconnected();
+}
+
+QString QalfServerThread::getPacket(QTcpSocket &socket) {
+	qDebug() << socket.peerAddress().toString() ;
+	QString packet ;
+	QDataStream in(&socket);
+	in.setVersion(QDataStream::Qt_4_0);
+	quint16 blockSize = 0 ;
+
+	// waiting connection
+	qDebug() << "waiting connection" ;
+// 	if(!socket.waitForConnected(10000))
+// 		return packet ;
+	qDebug() << "state" << socket.state() ;
+	// reading size of packet
+	qDebug() << "reading size of packet" ;
+	
+	while (socket.bytesAvailable() < (int)sizeof(quint16)) {
+		qDebug() << "bytes available" << socket.bytesAvailable() ;
+		if (!socket.waitForReadyRead(1000)) {
+			emit error(socket.error());
+			return packet;
+		}
+	}
+// 	while (socket.bytesAvailable() < (int)sizeof(quint16))
+// 		return packet;
+	in >> blockSize;
+	qDebug() << "blocksize" << blockSize ;
+
+	// looping until buffer is full
+	qDebug() << "looping until buffer is full" ;
+	while (socket.bytesAvailable() < blockSize) {
+		if (!socket.waitForReadyRead(10000)) {
+			emit error(socket.error());
+			return packet;
+		}
+	}
+	
+	// reading the packet
+	qDebug() << "reading the packet" ;
+	in >> packet ;
+	return packet ;
+}
+
+void QalfServerThread::parse(QString &packet) {
+
 }

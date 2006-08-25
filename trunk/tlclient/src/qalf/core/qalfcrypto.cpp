@@ -37,6 +37,27 @@ bool QalfCrypto::checkKeyAuthorization(QString &key) {
 	return false ;
 }
 
+QString QalfCrypto::getPublicKey(QString &key) {
+	
+	// exporting public key
+	gpgme_data_t keyData ;
+	gpgme_error_t result = gpgme_data_new(&keyData);
+	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
+
+	result = gpgme_op_export(context,key.toLocal8Bit(),0,keyData) ;
+	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
+	
+	QString publicKeyStr ;
+	char  * buffer = (char *) calloc(4096,sizeof(char)) ;
+	gpgme_data_rewind(keyData) ;
+// should be the following, but for a fucking mysterious reason, it doesn't want to work
+// 	gpgme_data_seek(keyData,0,SEEK_SET) ;
+	gpgme_data_read(keyData,buffer,4096) ;
+
+	publicKeyStr += buffer ;
+	return publicKeyStr ;
+}
+
 QString QalfCrypto::sign(QString &message, QString &key) {
 	gpgme_set_passphrase_cb(context,&passphrase_callback,NULL) ;
 	gpgme_signers_clear(context) ;

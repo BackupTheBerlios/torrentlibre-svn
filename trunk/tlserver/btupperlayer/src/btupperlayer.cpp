@@ -10,16 +10,66 @@
 ********************************************************/
 
 #include "qalfserver.h"
+#include "sys/types.h"
+#include "sys/stat.h"
+#include "fcntl.h"
+#include "signal.h"
+
+QalfServer server ;
+
+void daemonize() {
+	int pid ;
+	int i ;
+	int fd ;
+	char str[12] ;
+
+	pid = fork() ;
+	if(pid < 0) {
+		perror("Fork failed") ;
+	}
+	if(pid > 0) {
+		exit(EXIT_SUCCESS) ;
+	}
+	setsid() ;
+
+	pid = fork() ;
+	if(pid < 0) {
+		perror("Fork failed") ;
+	}
+	if(pid > 0) {
+		exit(EXIT_SUCCESS) ;
+	}
+
+	for(i = getdtablesize();i>=0;--i)
+		close(i) ;
+
+	i = open("/dev/null", O_RDWR) ;
+	dup(i) ;
+	dup(i) ;
+
+	umask(022) ;
+	chdir("/tmp") ;
+
+	fd = open("/tmp/btupperlayer.lock",O_RDWR | O_CREAT, 0640) ;
+	if(fd < 0)
+		exit(EXIT_FAILURE) ;
+	if(lockf(fd,F_TLOCK,0) < 0)
+		exit(EXIT_SUCCESS) ;
+	snprintf(str,12,"%d\n",getpid()) ;
+	write(fd,str,strlen(str)) ;
+}
+
+void sigterm_handler(int i) {
+	server.close() ;
+}
 
 int main(int argc, char *argv[])
 {
-	QalfServer server ;
-	server.listen() ;
-	qDebug() << "port:" << server.serverPort() ;
-	
-	int i = 0 ;
-	while(i < 10) {
-		server.waitForNewConnection(30000) ;
-		++i ;
+// 	daemonize() ;
+	int port = 7200 ;
+	signal(SIGTERM,sigterm_handler) ;
+	server.listen(QHostAddress::Any,port) ;
+	while(server.isListening()) {
+		server.waitForNewConnection() ;
 	}
 }

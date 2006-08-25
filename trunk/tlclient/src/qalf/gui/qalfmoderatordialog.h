@@ -22,6 +22,7 @@ class QalfModeratorDialog : public QDialog {
 	
 	protected slots:
 		void generateKeys() ;
+		void sendKey() ;
 		void savePref() ;
 
 	signals:
