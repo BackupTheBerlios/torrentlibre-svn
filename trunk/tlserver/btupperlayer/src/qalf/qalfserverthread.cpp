@@ -10,6 +10,7 @@
 ********************************************************/
 
 #include "qalfserverthread.h"
+#include "qalfhandler.h"
 
 QalfServerThread::QalfServerThread(int socketDescriptor, QObject * parent) : QThread(parent), socketDescriptor(socketDescriptor) {
 
@@ -23,11 +24,10 @@ void QalfServerThread::run() {
 	}
 
 	QByteArray packet = getPacket(tcpSocket) ;
-	qDebug() << packet ;
 	parse(packet) ;
 
 	tcpSocket.disconnectFromHost();
-	tcpSocket.waitForDisconnected();
+// 	tcpSocket.waitForDisconnected();
 }
 
 QByteArray QalfServerThread::getPacket(QTcpSocket &socket) {
@@ -59,13 +59,13 @@ QByteArray QalfServerThread::getPacket(QTcpSocket &socket) {
 	qDebug() << "blocksize" << blockSize ;
 
 	// looping until buffer is full
-// 	qDebug() << "looping until buffer is full" ;
-// 	while (socket.bytesAvailable() < blockSize) {
-// 		if (!socket.waitForReadyRead(10000)) {
-// 			emit error(socket.error());
-// 			return packet;
-// 		}
-// 	}
+	qDebug() << "looping until buffer is full" ;
+	while (socket.bytesAvailable() < blockSize) {
+		if (!socket.waitForReadyRead(10000)) {
+			emit error(socket.error());
+			return packet;
+		}
+	}
 	
 	// reading the packet
 	qDebug() << "reading the packet" ;
@@ -74,5 +74,16 @@ QByteArray QalfServerThread::getPacket(QTcpSocket &socket) {
 }
 
 void QalfServerThread::parse(QByteArray &packet) {
-
+	QDataStream in(&packet,QIODevice::ReadOnly);
+	in.setVersion(QDataStream::Qt_4_0);
+	quint16 command ;
+	in >> command ;
+	switch(command) {
+		case (quint16)SENDKEY:
+			QString name, email, key ;
+			in >> name >> email >> key ;
+			QalfHandler handler ;
+			handler.recordKey(name,email,key) ;
+		break ;
+	}
 }

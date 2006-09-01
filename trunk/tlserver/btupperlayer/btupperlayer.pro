@@ -4,7 +4,8 @@
 
 TEMPLATE = app
 TARGET = btupperlayer
-QT += xml network
+QT += xml sql network
+CONFIG += qtestlib
 
 DEPENDPATH += . \
               src \
@@ -19,8 +20,16 @@ MOC_DIR = $${OBJECTS_DIR}
 
 # Input
 HEADERS += qalfserver.h \
-           qalfserverthread.h
+           qalfserverthread.h \
+           qalfconfig.h \
+           qalfhandler.h \
+           qalfdb.h
 
 SOURCES += btupperlayer.cpp \
            qalfserver.cpp \
-           qalfserverthread.cpp
+           qalfserverthread.cpp \
+           qalfconfig.cpp \
+           qalfhandler.cpp \
+           qalfdb.cpp
+
+LIBS += -lgpgme -Wl,-rpath /usr/local/lib -L/usr/local/lib

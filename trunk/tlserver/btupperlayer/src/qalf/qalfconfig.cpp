@@ -80,8 +80,11 @@ void QalfConfig::setProperty(QString &key, QString &value) {
 
 void QalfConfig::save() {
 	QFile file(confFile);
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	qDebug() << "opening" << confFile ;
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+		qDebug() << "can't open conf file" ;
 		return;
+	}
 
 	QTextStream out(&file);
 	out << "<torrentlibre>\n";

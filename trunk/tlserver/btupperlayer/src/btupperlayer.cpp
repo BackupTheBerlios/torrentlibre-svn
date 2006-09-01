@@ -14,8 +14,12 @@
 #include "sys/stat.h"
 #include "fcntl.h"
 #include "signal.h"
+#include "qalfconfig.h"
+#include "qalfdb.h"
+#include <QCoreApplication>
 
-QalfServer server ;
+
+QalfServer * server ;
 
 void daemonize() {
 	int pid ;
@@ -60,17 +64,21 @@ void daemonize() {
 }
 
 void sigterm_handler(int i) {
-	server.close() ;
+	server->close() ;
 }
 
 int main(int argc, char *argv[])
 {
 // 	daemonize() ;
+	QCoreApplication app( argc, argv );
 	int port = 7200 ;
 	signal(SIGTERM,sigterm_handler) ;
-	server.listen(QHostAddress::Any,port) ;
-	while(server.isListening()) {
-		qDebug() << "waitForNewConnection()" ;
-		server.waitForNewConnection(10000) ;
-	}
+	QalfConfig * config = QalfConfig::getConfigObject() ;
+	config->save() ;
+	QalfDb * db = QalfDb::getDbObject() ;
+	server = new QalfServer(0,port);
+	
+	app.exec() ;
 }
+
+

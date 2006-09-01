@@ -12,16 +12,25 @@
 #include "qalfserver.h"
 #include "qalfserverthread.h"
 
-QalfServer::QalfServer(QObject * parent) : QTcpServer(parent) {
-
+QalfServer::QalfServer(QObject * parent, int port) : QTcpServer(parent), port(port) {
+	this->listen(QHostAddress::Any,port) ;
 }
 
 QalfServer::~QalfServer() {
 
 }
 
+// void QalfServer::run() {
+// 	listen(QHostAddress::Any,port) ;
+// 	while(isListening()) {
+// 		qDebug() << "waitForNewConnection()" ;
+// 		waitForNewConnection(10000) ;
+// 	}
+// }
+
 void QalfServer::incomingConnection(int socketDescriptor) {
-	QalfServerThread *thread = new QalfServerThread(socketDescriptor, this);
-	connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+	qDebug() << "incomingConnection" ;
+	QalfServerThread *thread = new QalfServerThread(socketDescriptor, dynamic_cast<QThread*>(this));
+	QThread::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 	thread->start();
 }

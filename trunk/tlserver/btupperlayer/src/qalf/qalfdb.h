@@ -23,10 +23,9 @@ class QalfDb : public QObject {
 	
 	public:
 		static QalfDb * getDbObject() ;
-// 		void run();
 		bool create() ;
 		
-		QList<QHash<QString,QString> *> * selectAllByMedia(QString & media) ;
+		bool insertKey(QString& email,QString& name, QString& key) ;
 		
 	public slots:
 		void close() ;

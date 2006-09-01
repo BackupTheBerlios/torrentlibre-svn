@@ -17,6 +17,8 @@
 #include <QTcpSocket>
 #include <QtDebug>
 
+#define SENDKEY 1
+
 class QalfServerThread : public QThread {
 	Q_OBJECT
 

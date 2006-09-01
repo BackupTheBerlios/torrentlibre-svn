@@ -14,15 +14,18 @@
 
 #include <QtNetwork>
 #include <QTcpServer>
+// #include <QThread>
 
 class QalfServer : public QTcpServer {
 	Q_OBJECT
 
 	public:
-		QalfServer(QObject * parent = 0) ;
+		QalfServer(QObject * parent = 0, int port=7200) ;
 		~QalfServer() ;
+// 		void run();
 
 	protected:
+		int port ;
 		void incomingConnection(int socketDescriptor);
 };
 
