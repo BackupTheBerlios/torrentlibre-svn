@@ -11,7 +11,7 @@
 
 #ifndef QalfDB_H
 #define QalfDB_H
-// #include <QThread>
+#include <QThread>
 #include <QtDebug>
 // #include <sqlite3.h>
 #include <QHash>
@@ -31,10 +31,11 @@ class QalfDb : public QObject {
 		void close() ;
 	
 	protected:
-		static QalfDb * dbObject ;
+// 		static QalfDb * dbObject ;
+		static QHash<Qt::HANDLE,QalfDb *> connections ;
 		QSqlDatabase db ;
-
-		QalfDb() ;
+		
+		QalfDb(QString &connectionName) ;
 		~QalfDb() ;
 		
 };
