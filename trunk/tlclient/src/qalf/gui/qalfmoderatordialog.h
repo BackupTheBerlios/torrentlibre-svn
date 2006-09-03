@@ -19,14 +19,18 @@ class QalfModeratorDialog : public QDialog {
 	
 	public:
 		QalfModeratorDialog(QWidget * parent = 0) ;
-	
+		void switchTo() ;
+		
 	protected slots:
 		void generateKeys() ;
 		void sendKey() ;
 		void savePref() ;
 
 	signals:
-		void keyCreated() ;
+		void keyNotCreated() ;
+		void keyUnknown() ;
+		void keyUntrusted() ;
+		void keyTrusted() ;
 
 	protected:
 		QLabel * usernameLabel ;
@@ -46,9 +50,9 @@ class QalfModeratorDialog : public QDialog {
 		QHBoxLayout * buttonLayout ;
 		QVBoxLayout * vlayout ;
 
-		void switchTo() ;
 		void switchToGenerateKey() ;
 		void switchToExportKey() ;
+		void switchToReExportKey() ;
 		void switchToDeleteKey() ;
 		void switchToNoKey() ;
 };

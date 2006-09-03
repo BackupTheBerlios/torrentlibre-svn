@@ -19,7 +19,7 @@
 QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 	vlayout = new QVBoxLayout(this) ;
 
-	noKeySetLabel = new QLabel(tr("The moderator preferences have not been completely set. Please go to \"Configuration->Moderator preferences\" menu (or press Ctrl+L) to generate and export a key.")) ;
+	noKeySetLabel = new QLabel() ;
 	noKeySetLabel->setWordWrap(true) ;
 	vlayout->addWidget(noKeySetLabel) ;
 
@@ -36,7 +36,7 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 	vlayout->addLayout(fileLayout) ;
 
 	// general informations
-	QGroupBox * infoBox = new QGroupBox(tr("Informations about file")) ;
+	infoBox = new QGroupBox(tr("Informations about file")) ;
 	QGridLayout *  infoLayout = new QGridLayout() ;
 	titleLabel = new QLabel(tr("title :")) ;
 	titleValue = new QLineEdit() ;
@@ -65,7 +65,7 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 	vlayout->addWidget(infoBox) ;
 
 	// medium specific
-	QGroupBox * mediumBox = new QGroupBox(tr("Informations specific to medium")) ;
+	mediumBox = new QGroupBox(tr("Informations specific to medium")) ;
 	QVBoxLayout * mediumLayout = new QVBoxLayout() ;
 	
 	mediumInfo = new QStackedWidget() ;
@@ -92,19 +92,72 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 }
 
 void QalfModeratorWidget::checkKey() {
+	qDebug() << "checkKey" ;
 	QalfConfig *configObject = QalfConfig::getConfigObject() ;
 	QString keyProperty("moderatorKey") ;
-	if(configObject->getProperty(keyProperty) == "") {
-		noKeySetLabel->setVisible(true) ;
-		fileLabel->setVisible(false) ;
-		fileValue->setVisible(false) ;
-		openFileButton->setVisible(false) ;
+	QString key = configObject->getProperty(keyProperty) ;
+	if(key == "") {
+		switchToNokey() ;
 	} else {
-		noKeySetLabel->setVisible(false) ;
-		fileLabel->setVisible(true) ;
-		fileValue->setVisible(true) ;
-		openFileButton->setVisible(true) ;
+		QString emailProperty("email") ;
+		QString email = configObject->getProperty(emailProperty) ;
+		QalfNetwork client ;
+		QalfNetwork::ResultCode keyStatus = client.checkKeyStatus(email,key) ;
+	
+		// key not sent
+		if(keyStatus == QalfNetwork::KeyUnknown) {
+			switchToKeyUnknown() ;
+		} else {
+			// key not trusted
+			if(keyStatus == QalfNetwork::KeyUntrusted) {
+				switchToKeyUntrusted() ;
+			} else {
+				switchToKeyTrusted() ;
+			}
+		}
 	}
+}
+
+void QalfModeratorWidget::switchToNokey() {
+	noKeySetLabel->setText(tr("You have not yet generated a moderator key. Please go to \"Configuration->Moderator preferences\" menu (or press Ctrl+L) to generate and export a key.")) ;
+	noKeySetLabel->setVisible(true) ;
+	fileLabel->setVisible(false) ;
+	fileValue->setVisible(false) ;
+	openFileButton->setVisible(false) ;
+	infoBox->setVisible(false) ;
+	mediumBox->setVisible(false) ;
+}
+
+void QalfModeratorWidget::switchToKeyUnknown() {
+	qDebug() << "slot keyUnknown" ;
+	noKeySetLabel->setText(tr("You have not yet exported your moderator key. Please go to \"Configuration->Moderator preferences\" menu (or press Ctrl+L) to export your key.")) ;
+	noKeySetLabel->setVisible(true) ;
+	fileLabel->setVisible(false) ;
+	fileValue->setVisible(false) ;
+	openFileButton->setVisible(false) ;
+	infoBox->setVisible(false) ;
+	mediumBox->setVisible(false) ;
+}
+
+void QalfModeratorWidget::switchToKeyUntrusted() {
+	qDebug() << "slot keyUntrusted" ;
+	noKeySetLabel->setText(tr("Your moderator key has not yet been approved by the server. Please wait until a server owner validate it.")) ;
+	noKeySetLabel->setVisible(true) ;
+	fileLabel->setVisible(false) ;
+	fileValue->setVisible(false) ;
+	openFileButton->setVisible(false) ;
+	infoBox->setVisible(false) ;
+	mediumBox->setVisible(false) ;
+}
+
+void QalfModeratorWidget::switchToKeyTrusted() {
+	qDebug() << "slot keyTrusted" ;
+	noKeySetLabel->setVisible(false) ;
+	fileLabel->setVisible(true) ;
+	fileValue->setVisible(true) ;
+	openFileButton->setVisible(true) ;
+	infoBox->setVisible(true) ;
+	mediumBox->setVisible(true) ;
 }
 
 void QalfModeratorWidget::openFile() {

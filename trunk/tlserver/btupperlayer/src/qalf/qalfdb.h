@@ -26,6 +26,7 @@ class QalfDb : public QObject {
 		bool create() ;
 		
 		bool insertKey(QString& email,QString& name, QString& key) ;
+		QHash<QString,QString> getKeyInfo(QString& email) ;
 		
 	public slots:
 		void close() ;

@@ -27,6 +27,10 @@ class QalfModeratorWidget : public QWidget {
 	protected slots:
 		void openFile() ;
 		void sendTorrent() ;
+		void switchToNokey() ;
+		void switchToKeyUnknown() ;
+		void switchToKeyUntrusted() ;
+		void switchToKeyTrusted() ;
 
 	protected:
 		QLabel * noKeySetLabel ;
@@ -50,6 +54,8 @@ class QalfModeratorWidget : public QWidget {
 
 		QHBoxLayout * buttonLayout ;
 		QVBoxLayout * vlayout ;
+		QGroupBox * infoBox ;
+		QGroupBox * mediumBox ;
 };
 
 #endif // QalfMODERATORWIDGET_H

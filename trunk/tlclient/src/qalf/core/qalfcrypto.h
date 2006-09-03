@@ -26,7 +26,7 @@ class QalfCrypto : public QObject {
 		~QalfCrypto() ;
 		QString generateKeyPair(QString &username, QString &email,QString &passphrase) ;
 		QString getPublicKey(QString &key) ;
-		bool checkKeyAuthorization(QString &key) ;
+// 		bool checkKeyAuthorization(QString &key) ;
 		QString sign(QString &message, QString &key) ;
 
 	protected:

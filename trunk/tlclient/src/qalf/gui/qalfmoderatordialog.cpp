@@ -72,7 +72,7 @@ QalfModeratorDialog::QalfModeratorDialog(QWidget * parent) : QDialog(parent),gen
 	vlayout->addLayout(buttonLayout) ;
 	setLayout(vlayout) ;
 
-	switchTo() ;
+// 	switchTo() ;
 }
 
 void QalfModeratorDialog::generateKeys() {
@@ -97,7 +97,6 @@ void QalfModeratorDialog::generateKeys() {
 				configObject->setProperty(keyProperty,key) ;
 				configObject->save() ;
 				keyValue->setText(key) ;
-				emit keyCreated() ;
 				switchTo() ;
 			}
 		}
@@ -133,16 +132,32 @@ void QalfModeratorDialog::savePref() {
 void QalfModeratorDialog::switchTo() {
 	QalfConfig * configObject = QalfConfig::getConfigObject() ;
 	QString keyProperty("moderatorKey") ;
+	QString emailProperty("email") ;
 	QString key = configObject->getProperty(keyProperty) ;
+	QString email = configObject->getProperty(emailProperty) ;
 
 	if(key == "") {
 		switchToGenerateKey() ;
 	} else {
-		QalfCrypto crypto ;
-		if(crypto.checkKeyAuthorization(key)) {
-			switchToDeleteKey() ;
-		} else {
-			switchToExportKey() ;
+		QalfNetwork client ;
+		QalfNetwork::ResultCode keyStatus = client.checkKeyStatus(email,key) ;
+		switch(keyStatus) {
+			case QalfNetwork::KeyUntrusted:
+				emit keyUntrusted() ;
+				qDebug() << "emit keyUntrusted" ;
+				switchToReExportKey() ;
+				break ;
+			case QalfNetwork::KeyTrusted:
+				emit keyTrusted() ;
+				qDebug() << "emit keyTrusted" ;
+				switchToDeleteKey() ;
+				break ;
+			case QalfNetwork::KeyUnknown:
+			default:
+				qDebug() << "emit keyUnknown" ;
+				emit keyUnknown() ;
+				switchToExportKey() ;
+				break ;
 		}
 	}
 }
@@ -171,6 +186,26 @@ void QalfModeratorDialog::switchToExportKey() {
 	keyStatusLabel->setVisible(true) ;
 	keyStatusValue->setVisible(true) ;
 	generateKeyButton->setVisible(false) ;
+	exportKeyButton->setText("Export key") ;
+	exportKeyButton->setVisible(true) ;
+	deleteKeyButton->setVisible(false) ;
+	QPalette palette = keyStatusValue->palette() ;
+	palette.setColor(QPalette::WindowText,Qt::red) ;
+	keyStatusValue->setPalette(palette) ;
+	keyStatusValue->setText(tr("Key not exported")) ;
+}
+
+void QalfModeratorDialog::switchToReExportKey() {
+	usernameValue->setReadOnly(true) ;
+	usernameValue->setEnabled(false) ;
+	emailValue->setReadOnly(true) ;
+	emailValue->setEnabled(false) ;
+	keyLabel->setVisible(true) ;
+	keyValue->setVisible(true) ;
+	keyStatusLabel->setVisible(true) ;
+	keyStatusValue->setVisible(true) ;
+	generateKeyButton->setVisible(false) ;
+	exportKeyButton->setText("Reexport key") ;
 	exportKeyButton->setVisible(true) ;
 	deleteKeyButton->setVisible(false) ;
 	QPalette palette = keyStatusValue->palette() ;
@@ -194,5 +229,5 @@ void QalfModeratorDialog::switchToDeleteKey() {
 	QPalette palette = keyStatusValue->palette() ;
 	palette.setColor(QPalette::WindowText,Qt::green) ;
 	keyStatusValue->setPalette(palette) ;
-	keyStatusValue->setText(tr("Key accepted")) ;
+	keyStatusValue->setText(tr("Key trusted")) ;
 }

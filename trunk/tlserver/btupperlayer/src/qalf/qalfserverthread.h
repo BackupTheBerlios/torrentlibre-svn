@@ -18,6 +18,12 @@
 #include <QtDebug>
 
 #define SENDKEY 1
+#define KEYSTATUS 2
+
+#define RESULTCODE       100
+#define KEYUNKNOWN       101
+#define KEYUNTRUSTED     102
+#define KEYTRUSTED       103
 
 class QalfServerThread : public QThread {
 	Q_OBJECT
@@ -32,7 +38,8 @@ class QalfServerThread : public QThread {
 	protected:
 		int socketDescriptor;
 		QByteArray getPacket(QTcpSocket &socket) ;
-		void parse(QByteArray &packet) ;
+		QByteArray parse(QByteArray &packet) ;
+		bool sendPacket(QTcpSocket &socket, QByteArray &packet) ;
 };
 
 #endif // QalfSERVERTHREAD_H

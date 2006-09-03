@@ -53,7 +53,7 @@ QalfDb::~QalfDb() {
 
 bool QalfDb::create() {
 	QSqlQuery query;
-	query = db.exec("CREATE TABLE key (email TEXT PRIMARY KEY, name TEXT, key TEXT)") ;
+	query = db.exec("CREATE TABLE key (email TEXT PRIMARY KEY, name TEXT, key BLOB, trusted INTEGER default 0)") ;
 
 	return true ;
 }
@@ -68,6 +68,26 @@ bool QalfDb::insertKey(QString& email,QString& name, QString& key) {
 	qDebug() << "sql lastquery :" << query.lastQuery() ;
 	qDebug() << "sql lasterror :" << query.lastError() ; 
 	return true ;
+}
+
+QHash<QString,QString> QalfDb::getKeyInfo(QString& email) {
+	QSqlQuery query(db) ;
+	query.prepare("SELECT name,key,trusted FROM key WHERE email = ?") ;
+	query.addBindValue(email) ;
+	query.exec() ;
+	qDebug() << "sql lastquery :" << query.executedQuery() ;
+	qDebug() << "sql lasterror :" << query.lastError() ; 
+	
+	QHash<QString,QString> result ;
+	
+	if(query.next()) {
+		qDebug() << "key from request :" << query.value(0).toString() ;
+		result["name"] = query.value(0).toString() ;
+		result["key"] = query.value(1).toString() ;
+		result["trusted"] = query.value(2).toString() ;
+		qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString() ;
+	}
+	return result ;	
 }
 
 void QalfDb::close() {

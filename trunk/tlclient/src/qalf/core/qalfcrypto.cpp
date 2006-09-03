@@ -33,9 +33,9 @@ QString QalfCrypto::generateKeyPair(QString &username, QString &email,QString &p
 	return QString(keys->fpr) ;
 }
 
-bool QalfCrypto::checkKeyAuthorization(QString &key) {
-	return false ;
-}
+// bool QalfCrypto::checkKeyAuthorization(QString &key) {
+// 	return false ;
+// }
 
 QString QalfCrypto::getPublicKey(QString &key) {
 	

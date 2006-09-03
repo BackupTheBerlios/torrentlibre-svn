@@ -102,6 +102,7 @@ void QalfConfig::save() {
 }
 
 void QalfConfig::load() {
+	qDebug() << "load file" ;
 	QFile * file = new QFile(confFile);
 	
 	QXmlSimpleReader xmlReader;

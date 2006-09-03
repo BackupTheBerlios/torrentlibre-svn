@@ -24,8 +24,8 @@ void QalfServerThread::run() {
 	}
 
 	QByteArray packet = getPacket(tcpSocket) ;
-	parse(packet) ;
-
+	QByteArray answer = parse(packet) ;
+	sendPacket(tcpSocket,answer) ;
 	tcpSocket.disconnectFromHost();
 // 	tcpSocket.waitForDisconnected();
 }
@@ -73,17 +73,80 @@ QByteArray QalfServerThread::getPacket(QTcpSocket &socket) {
 	return packet ;
 }
 
-void QalfServerThread::parse(QByteArray &packet) {
+QByteArray QalfServerThread::parse(QByteArray &packet) {
 	QDataStream in(&packet,QIODevice::ReadOnly);
 	in.setVersion(QDataStream::Qt_4_0);
 	quint16 command ;
 	in >> command ;
+	
+	QalfHandler handler ;
+	QByteArray answer ;
+	QDataStream out(&answer,QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_4_0);
 	switch(command) {
-		case (quint16)SENDKEY:
+		case (quint16)KEYSTATUS: {
+			QString email ;
+			in >> email ;
+			int keyExists = handler.keyStatus(email) ;
+			command = RESULTCODE ;
+			out << command ;
+			switch(keyExists) {
+				case QalfHandler::KeyUntrusted:
+					out << KEYUNTRUSTED ;
+					break ;
+				case QalfHandler::KeyTrusted:
+					out << KEYTRUSTED ;
+					break ;
+				default:
+				case QalfHandler::KeyUnknown:
+					out << KEYUNKNOWN ;
+					break ;
+			}
+			break ;
+		}
+		case (quint16)SENDKEY: {
 			QString name, email, key ;
 			in >> name >> email >> key ;
-			QalfHandler handler ;
-			handler.recordKey(name,email,key) ;
-		break ;
+			int recordKey = handler.recordKey(name,email,key) ;
+			command = RESULTCODE ;
+			out << command ;
+			out << recordKey ;
+			break ;
+		}
 	}
+	return answer ;
+}
+
+bool QalfServerThread::sendPacket(QTcpSocket &socket, QByteArray &packet) {
+
+	if (!socket.waitForConnected(10000)) {
+		return false ;
+	}
+
+	QByteArray block;
+	QDataStream out(&block,QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_4_0);
+	out << (quint16)(packet.size());
+	out << packet ;
+	
+	QDataStream in(&block,QIODevice::ReadOnly);
+	in.setVersion(QDataStream::Qt_4_0);
+	quint16 size ;
+	QByteArray message ;
+// 	in.device()->seek(0);
+	in >> size ;
+	in >> message ;
+	qDebug() << "size" << size ;
+	qDebug() << "message : " << QString(message) ;
+	if(socket.waitForConnected(10000))
+	qint64 read = socket.write(block);
+	while(socket.bytesToWrite()) {
+		qDebug() << "BytesToWrite" ;
+		socket.waitForBytesWritten(1000) ;
+	}
+// 	else
+// 		return false ;
+	qDebug() << "read : " << read ;
+// 	socket.disconnectFromHost();
+	return true ;
 }
