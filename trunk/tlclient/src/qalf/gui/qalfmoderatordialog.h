@@ -51,10 +51,10 @@ class QalfModeratorDialog : public QDialog {
 		QVBoxLayout * vlayout ;
 
 		void switchToGenerateKey() ;
-		void switchToExportKey() ;
-		void switchToReExportKey() ;
-		void switchToDeleteKey() ;
-		void switchToNoKey() ;
+		void switchToKeyUnknown() ;
+		void switchToKeyUntrusted() ;
+		void switchToKeyTrusted() ;
+// 		void switchToNoKey() ;
 };
 
 #endif // QalfMODERATORDIALOG_H
