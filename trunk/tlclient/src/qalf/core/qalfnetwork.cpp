@@ -14,7 +14,7 @@
 #include <QtNetwork>
 // #include <QtTest>
 
-QalfNetwork::QalfNetwork() {
+QalfNetwork::QalfNetwork() : QObject() {
 
 }
 
@@ -22,7 +22,12 @@ QalfNetwork::~QalfNetwork() {
 
 }
 
-bool QalfNetwork::sendKey(QString &username, QString &email, QString &publicKey) {
+void QalfNetwork::errorHandler(QAbstractSocket::SocketError error) {
+	throw QalfNetworkException(error,socket.errorString()) ;
+// 	qDebug() << error << socket.errorString() ;
+}
+
+void QalfNetwork::sendKey(QString &username, QString &email, QString &publicKey) {
 	QByteArray packet ;
 	quint16 command(SENDKEY) ;
 	QDataStream out(&packet,QIODevice::WriteOnly);
@@ -31,97 +36,52 @@ bool QalfNetwork::sendKey(QString &username, QString &email, QString &publicKey)
 	out << username ;
 	out << email ;
 	out << publicKey ;
-	QByteArray answer = sendPacket(packet) ;
-	return true ;
+	try {
+		QByteArray answer = sendPacket(packet) ;
+	}
+	catch(...) {
+		throw ;
+	}
 }
 
-bool QalfNetwork::sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) {
-	return false ;
+void QalfNetwork::sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) {
+	
 }
 
 QalfNetwork::ResultCode QalfNetwork::checkKeyStatus(QString& email, QString &key) {
+	qDebug() << "check key status" ;
 	QByteArray packet ;
 	quint16 command(KEYSTATUS) ;
 	QDataStream out(&packet,QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_4_0);
 	out << command ;
 	out << email ;
-	QByteArray answer = sendPacket(packet) ;
-	QDataStream in(&answer,QIODevice::ReadOnly);
-	in.setVersion(QDataStream::Qt_4_0);
-	in >> command ;
 	int result ;
-	if(command != RESULTCODE) {
-		result = KeyUnknown ;
-	} else {
-		in >> result ;
-		qDebug() << result ;
+	try {
+		QByteArray answer = sendPacket(packet) ;
+		QDataStream in(&answer,QIODevice::ReadOnly);
+		in.setVersion(QDataStream::Qt_4_0);
+		in >> command ;
+		
+		if(command != RESULTCODE) {
+			result = KeyUnknown ;
+		} else {
+			in >> result ;
+			qDebug() << result ;
+		}
+	}
+	catch(...) {
+		throw ;
 	}
 	return ResultCode(result) ;
 }
 
-// bool QalfNetwork::checkKeyKnown(QString& email, QString &key) {
-// 	QByteArray packet ;
-// 	quint16 command(ASKFORKEY) ;
-// 	QDataStream out(&packet,QIODevice::WriteOnly);
-// 	out.setVersion(QDataStream::Qt_4_0);
-// 	out << command ;
-// 	out << email ;
-// 	QByteArray answer = sendPacket(packet) ;
-// 	QDataStream in(&answer,QIODevice::ReadOnly);
-// 	in.setVersion(QDataStream::Qt_4_0);
-// 	in >> command ;
-// 	if(command != RESULTCODE) {
-// 		return false ;
-// 	} else {
-// 		int result ;
-// 		in >> result ;
-// 		qDebug() << result ;
-// 		switch(result) {
-// 			case KeyUnknown:
-// 				return false ;
-// 				break ;
-// 			case KeyUntrusted:
-// 				return true ;
-// 				break ;
-// 		}
-// 	}
-// 	return false ;
-// }
-// 
-// bool QalfNetwork::checkKeyAuthorization(QString& email, QString &key) {
-// 	QByteArray packet ;
-// 	quint16 command(ISKEYAUTHORIZED) ;
-// 	QDataStream out(&packet,QIODevice::WriteOnly);
-// 	out.setVersion(QDataStream::Qt_4_0);
-// 	out << command ;
-// 	out << email ;
-// 	QByteArray answer = sendPacket(packet) ;
-// 	QDataStream in(&answer,QIODevice::ReadOnly);
-// 	in.setVersion(QDataStream::Qt_4_0);
-// 	in >> command ;
-// 	if(command != RESULTCODE) {
-// 		return false ;
-// 	} else {
-// 		int result ;
-// 		in >> result ;
-// 		switch(result) {
-// 			case KeyUntrusted:
-// 				return false ;
-// 				break ;
-// 			case KeyTrusted:
-// 				return true ;
-// 				break ;
-// 		}
-// 	}
-// 	return false ;
-// }
-
 QByteArray QalfNetwork::sendPacket(QByteArray &packet) {
 	QString serverName("127.0.0.1") ;
 	quint16 serverPort = 7200;
-
-	QTcpSocket socket;
+	qDebug() << "sendPacket" ;
+	
+	connect(&socket,SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(errorHandler(QAbstractSocket::SocketError))) ;
 	socket.connectToHost(serverName, serverPort);
 
 	if (!socket.waitForConnected(10000)) {
@@ -144,13 +104,13 @@ QByteArray QalfNetwork::sendPacket(QByteArray &packet) {
 	qDebug() << "read : " << read ;
 	
 	// read answer
-	QByteArray answer = readPacket(socket) ;
+	QByteArray answer = readPacket() ;
 // 	parse(answer) ;
 // 	socket.disconnectFromHost();
 	return answer ;
 }
 
-QByteArray QalfNetwork::readPacket(QTcpSocket &socket) {
+QByteArray QalfNetwork::readPacket() {
 	qDebug() << socket.peerAddress().toString() ;
 	QByteArray packet ;
 	QDataStream in(&socket);

@@ -88,6 +88,7 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 	buttonLayout->addWidget(sendButton) ;
 	vlayout->addLayout(buttonLayout) ;
 	setLayout(vlayout) ;
+	switchToNokey() ;
 	checkKey() ;
 }
 
@@ -102,18 +103,22 @@ void QalfModeratorWidget::checkKey() {
 		QString emailProperty("email") ;
 		QString email = configObject->getProperty(emailProperty) ;
 		QalfNetwork client ;
-		QalfNetwork::ResultCode keyStatus = client.checkKeyStatus(email,key) ;
-	
-		// key not sent
-		if(keyStatus == QalfNetwork::KeyUnknown) {
-			switchToKeyUnknown() ;
-		} else {
-			// key not trusted
-			if(keyStatus == QalfNetwork::KeyUntrusted) {
-				switchToKeyUntrusted() ;
+		try {
+			QalfNetwork::ResultCode keyStatus = client.checkKeyStatus(email,key) ;
+		
+			// key not sent
+			if(keyStatus == QalfNetwork::KeyUnknown) {
+				switchToKeyUnknown() ;
 			} else {
-				switchToKeyTrusted() ;
+				// key not trusted
+				if(keyStatus == QalfNetwork::KeyUntrusted) {
+					switchToKeyUntrusted() ;
+				} else {
+					switchToKeyTrusted() ;
+				}
 			}
+		} catch(QalfNetworkException &exception) {
+			QMessageBox::critical(this, tr("Server error"), tr("Error %1 : ").arg(exception.code())+exception.message(), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton) ;
 		}
 	}
 }

@@ -32,8 +32,8 @@ class QalfNetwork : public QObject {
 	
 		QalfNetwork() ;
 		~QalfNetwork() ;
-		bool sendKey(QString &username, QString &email, QString &publicKey) ;
-		bool sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) ;
+		void sendKey(QString &username, QString &email, QString &publicKey) ;
+		void sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) ;
 		ResultCode checkKeyStatus(QString& email, QString &key) ;
 // 		bool checkKeyKnown(QString& email, QString &key) ;
 // 		bool checkKeyAuthorization(QString& email, QString &key) ;
@@ -44,9 +44,26 @@ class QalfNetwork : public QObject {
 		void keyUntrusted() ;
 		void keyTrusted() ;
 
+	protected slots:
+		void errorHandler(QAbstractSocket::SocketError socketError) ;
+
 	protected:
 		QByteArray sendPacket(QByteArray &packet) ;
-		QByteArray readPacket(QTcpSocket &socket) ;
+		QByteArray readPacket() ;
+		QTcpSocket socket ;
 };
+
+class QalfNetworkException {
+	public:
+		QalfNetworkException(int code ,QString msg) : error_code(code), msg(msg) {} ;
+		QalfNetworkException(const QalfNetworkException &exception) : error_code(exception.error_code), msg(exception.msg) {} ;
+		
+		QString message() {return msg ; }
+		int code() {return error_code ; }
+		
+	protected:
+		int error_code ;
+		QString msg ;
+} ;
 
 #endif // QalfNETWORK_H

@@ -114,8 +114,13 @@ void QalfModeratorDialog::sendKey() {
 	QalfCrypto crypto ;
 	QString pubKey = crypto.getPublicKey(key) ;
 	QalfNetwork client ;
-	bool sent = client.sendKey(username,email,pubKey) ;
-	switchTo() ;
+	try {
+		client.sendKey(username,email,pubKey) ;
+		switchToReExportKey() ;
+	}
+	catch(QalfNetworkException &exception) {
+		QMessageBox::critical(this, tr("Server error"), tr("Error %1 : ").arg(exception.code())+exception.message(), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton) ;
+	}
 }
 
 void QalfModeratorDialog::savePref() {
@@ -140,7 +145,13 @@ void QalfModeratorDialog::switchTo() {
 		switchToGenerateKey() ;
 	} else {
 		QalfNetwork client ;
-		QalfNetwork::ResultCode keyStatus = client.checkKeyStatus(email,key) ;
+		
+		QalfNetwork::ResultCode keyStatus = QalfNetwork::KeyUnknown ;
+		try {
+			keyStatus = client.checkKeyStatus(email,key) ;
+		}	catch(QalfNetworkException &exception) {
+			QMessageBox::critical(this, tr("Server error"), tr("Error %1 : ").arg(exception.code())+exception.message(), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton) ;
+		}
 		switch(keyStatus) {
 			case QalfNetwork::KeyUntrusted:
 				emit keyUntrusted() ;
