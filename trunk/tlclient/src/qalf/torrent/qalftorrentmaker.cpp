@@ -45,8 +45,8 @@ QString QalfTorrentMaker::createTorrent(QString &filename, QString &torrentFilen
 
 	try {
 		torrent_info t;
-		path full_path = path(filename.toLocal8Bit());
-		ofstream out(path(torrentFilename.toLocal8Bit()), std::ios_base::binary);
+		path full_path = path(filename.toAscii());
+		ofstream out(path(torrentFilename.toAscii()), std::ios_base::binary);
 
 		int piece_size = 256 * 1024;
 		QalfConfig * config = QalfConfig::getConfigObject() ;
@@ -57,7 +57,7 @@ QString QalfTorrentMaker::createTorrent(QString &filename, QString &torrentFilen
 		t.set_piece_size(piece_size);
 
 		storage st(t, full_path.branch_path());
-		char const * trackerStr = tracker.toLocal8Bit() ;
+		char const * trackerStr = tracker.toAscii() ;
 		t.add_tracker(trackerStr);
 
 		// calculate the hash for all pieces
@@ -69,7 +69,7 @@ QString QalfTorrentMaker::createTorrent(QString &filename, QString &torrentFilen
 			t.set_hash(i, h.final());
 		}
 
-		t.set_creator(creator.toLocal8Bit());
+		t.set_creator(creator.toAscii());
 
 		// create the torrent and print it to out
 		entry e = t.create_torrent();

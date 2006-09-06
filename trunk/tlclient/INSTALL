@@ -7,3 +7,5 @@ You need to install boost development package to get libtorrent working :
  - Boost::Filesystem
  - Boost::Thread
  - Boost::Serialization
+
+You need to install libgpgme to get GPG signing working 

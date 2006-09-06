@@ -25,7 +25,7 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 
 	// file path
 	fileLabel = new QLabel(tr("File :")) ;
-	fileValue = new QLineEdit(QString("/home/alf/alf.png")) ;
+	fileValue = new QLineEdit(QString("/home/alf/tentative_de.ogg")) ;
 	openFileButton = new QPushButton(QIcon(":/icons/folder_open.png"),QString()) ;
 	connect(openFileButton,SIGNAL(clicked()),this,SLOT(openFile())) ;
 	fileLayout = new QHBoxLayout() ;
@@ -39,13 +39,13 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 	infoBox = new QGroupBox(tr("Informations about file")) ;
 	QGridLayout *  infoLayout = new QGridLayout() ;
 	titleLabel = new QLabel(tr("title :")) ;
-	titleValue = new QLineEdit() ;
+	titleValue = new QLineEdit("Tentative de") ;
 	authorsLabel = new QLabel(tr("authors :")) ;
-	authorsValue = new QLineEdit() ;
+	authorsValue = new QLineEdit("VoX") ;
 	licenseLabel = new QLabel(tr("license :")) ;
 	licenseValue = new QComboBox() ;
 	keywordsLabel = new QLabel(tr("keywords :")) ;
-	keywordsValue = new QLineEdit() ;
+	keywordsValue = new QLineEdit("VoX") ;
 	infoLayout->addWidget(titleLabel,0,0) ;
 	infoLayout->addWidget(titleValue,0,1) ;
 	infoLayout->addWidget(authorsLabel,1,0) ;
@@ -196,7 +196,7 @@ void QalfModeratorWidget::sendTorrent() {
 			if(license == "") {
 				QMessageBox::warning(this,tr("License missing !"), tr("Please choose a license")) ;
 			} else {
-				QString tracker("http://127.0.0.1") ;
+				QString tracker("http://82.224.255.98:7997/announce") ;
 			
 				QalfConfig * config = QalfConfig::getConfigObject() ;
 				QString torrentDirProp("torrentDir") ;
