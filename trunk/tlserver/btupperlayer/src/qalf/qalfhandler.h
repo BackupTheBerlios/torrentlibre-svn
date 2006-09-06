@@ -15,6 +15,11 @@
 #include <QtDebug>
 #include <QObject>
 
+#define NO_ERROR         0
+#define USERNOTTRUSTED   1
+#define BADSIGNATURE     2
+#define CANNOTSTORETORRENT 3
+
 class QalfHandler : public QObject {
 	Q_OBJECT
 

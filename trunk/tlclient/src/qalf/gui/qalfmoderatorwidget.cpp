@@ -207,7 +207,11 @@ void QalfModeratorWidget::sendTorrent() {
 				QString hash = torrentMaker.createTorrent(filepath,torrentFilename,tracker) ;
 				QFile filename(torrentFilename) ;
 				QFileInfo info(filename) ;
-				filename.rename(info.absolutePath()+QString(QDir::separator())+hash+".torrent") ;
+				QString newPath(info.absolutePath()+QString(QDir::separator())+hash+".torrent") ;
+				if(QFile::exists(newPath)) {
+					QFile::remove(newPath) ;
+				}
+				filename.rename(newPath) ;
 				QString keyProp("moderatorKey") ;
 				QalfCrypto crypto ;
 				QString key = config->getProperty(keyProp) ;

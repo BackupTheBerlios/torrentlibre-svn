@@ -13,6 +13,7 @@
 #include "qalfdb.h"
 #include "qalftorrent.h"
 #include "qalfcrypto.h"
+#include "qalfconfig.h"
 
 QalfHandler::QalfHandler() : QObject() {
 
@@ -60,13 +61,26 @@ int QalfHandler::storeTorrent(QString &moderatorEmail, QString &signature, QStri
 		QalfCrypto crypto ;
 		qDebug() << "keyInfo" << keyInfo["key"] ;
 		bool verification = crypto.verify(signature, hash, keyInfo["key"]) ;
-		qDebug() << "signature valid ?" << verification ;
-		// storing on hd
+		if(verification) {
+			// storing on hd
+			QalfConfig * config = QalfConfig::getConfigObject() ;
+			QString torrentDirProp("torrentDir") ;
+			QString torrentFilename = config->getProperty(torrentDirProp)+QString(QDir::separator())+hash+".torrent" ;
 		
-		// storing meta information in db
+			QFile file(torrentFilename) ;
+			if (!file.open(QIODevice::WriteOnly))
+				return CANNOTSTORETORRENT;
+
+			QDataStream out(&file);
+			out << torrentData ;
+			
+			// storing meta information in db
 		
-		return 1 ;
+			return NO_ERROR ;
+		} else {
+			return BADSIGNATURE ;
+		}
 	} else {
-		return 0 ;
+		return USERNOTTRUSTED ;
 	}
 }

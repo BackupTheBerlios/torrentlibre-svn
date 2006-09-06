@@ -132,6 +132,7 @@ QByteArray QalfServerThread::parse(QByteArray &packet) {
 			qDebug() << "error code " << error_code ;
 			command = RESULTCODE ;
 			out << command ;
+			out << error_code ;
 			break ;
 		}
 		default:

@@ -32,6 +32,15 @@ QalfConfig::QalfConfig() {
 	QString torrentDir = tlDir+QString(QDir::separator())+QString(TORRENT_DIR) ;
 	setProperty(torrentDirProperty,torrentDir) ;
 
+	if(!current_dir.exists(tlDir)) {
+		current_dir.mkdir(tlDir) ;
+	}
+	current_dir.cd(tlDir) ;
+	if(!current_dir.exists(torrentDir)) {
+		current_dir.mkdir(torrentDir) ;
+	}
+	current_dir.cdUp() ;
+
 	if(!current_dir.exists(TL_CONF_DIR)) {
 		current_dir.mkdir(TL_CONF_DIR) ;
 	}
