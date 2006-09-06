@@ -12,6 +12,7 @@
 #include "qalfnetwork.h"
 #include <QtDebug>
 #include <QtNetwork>
+#include "qalfconfig.h"
 // #include <QtTest>
 
 QalfNetwork::QalfNetwork() : QObject() {
@@ -44,8 +45,63 @@ void QalfNetwork::sendKey(QString &username, QString &email, QString &publicKey)
 	}
 }
 
-void QalfNetwork::sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) {
+void QalfNetwork::sendTorrent(QString &moderatorEmail, QString &torrent,QString &signature, QString &title, QString &authors, QString &license, QString &keywords, QString &category) {
+	qDebug() << "sendTorrent" ;
+	QByteArray packet ;
+	quint16 command(SENDTORRENT) ;
+	QDataStream out(&packet,QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_4_0);
+	out << command ;
+	out << moderatorEmail ;
+	out << signature ;
+	out << title ;
+	out << authors ;
+	out << license ;
+	out << keywords ;
+	out << category ;
+	QalfConfig * config = QalfConfig::getConfigObject() ;
+	QString torrentDirProp("torrentDir") ;
+	QString torrentDir = config->getProperty(torrentDirProp) ;
+	QFile file(torrentDir+QDir::separator()+torrent+".torrent");
+	qDebug() << "opening" << torrentDir+QDir::separator()+torrent+".torrent" ;
+	if (!file.open(QIODevice::ReadOnly)) {
+		qDebug() << "can't open file" ;
+		return;
+	}
 	
+	QByteArray torrentData = file.readAll();
+	out << torrentData ;
+	try {
+		QByteArray answer = sendPacket(packet) ;
+	}
+	catch(...) {
+		throw ;
+	}
+}
+
+QList<QString> QalfNetwork::getLicenses() {
+	qDebug() << "getLicenses" ;
+	QByteArray packet ;
+	quint16 command(GETLICENSES) ;
+	QDataStream out(&packet,QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_4_0);
+	out << command ;
+	QList<QString> licenses ;
+	try {
+		QByteArray answer = sendPacket(packet) ;
+		QDataStream in(&answer,QIODevice::ReadOnly);
+		in.setVersion(QDataStream::Qt_4_0);
+		in >> command ;
+		QString license ;
+		while(!in.atEnd()) {
+			in >> license ;
+			licenses << license ;
+		}
+	}
+	catch(...) {
+		throw ;
+	}
+	return licenses ;
 }
 
 QalfNetwork::ResultCode QalfNetwork::checkKeyStatus(QString& email, QString &key) {
@@ -105,8 +161,15 @@ QByteArray QalfNetwork::sendPacket(QByteArray &packet) {
 	
 	// read answer
 	QByteArray answer = readPacket() ;
+	int command ;
+	QDataStream in(&answer,QIODevice::ReadOnly);
+	in.setVersion(QDataStream::Qt_4_0);
+	in >> command ;
+	if(command == UNKNOWNCOMMAND) {
+		throw QalfNetworkException(UNKNOWNCOMMAND,tr("Unknown server command")) ;
+	}
 // 	parse(answer) ;
-// 	socket.disconnectFromHost();
+	socket.disconnectFromHost();
 	return answer ;
 }
 

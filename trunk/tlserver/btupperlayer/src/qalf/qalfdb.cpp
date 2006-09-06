@@ -53,7 +53,14 @@ QalfDb::~QalfDb() {
 
 bool QalfDb::create() {
 	QSqlQuery query;
-	query = db.exec("CREATE TABLE key (email TEXT PRIMARY KEY, name TEXT, key BLOB, trusted INTEGER default 0)") ;
+	query = db.exec("CREATE TABLE key (email TEXT PRIMARY KEY, name TEXT UNIQUE, key BLOB, trusted INTEGER default 0)") ;
+	query = db.exec("CREATE TABLE licenses (license TEXT PRIMARY KEY, attribution INTEGER default 0, redistribution INTEGER default 0, modification INTEGER default 0, commercial_use INTEGER default 0, share_alike INTEGER default 0)") ;
+	query = db.exec("CREATE TABLE file (hash TEXT PRIMARY KEY, torrent TEXT UNIQUE, license TEXT)") ;
+	query = db.exec("CREATE TABLE music (hash TEXT PRIMARY KEY, title TEXT, band TEXT, album TEXT, style TEXT, duration INT)") ;
+	query = db.exec("CREATE TABLE text (hash TEXT PRIMARY KEY, title TEXT, category TEXT, style TEXT, pages INT)") ;
+	query = db.exec("CREATE TABLE image (hash TEXT PRIMARY KEY, title TEXT, size TEXT, format TEXT, category TEXT)") ;
+	query = db.exec("CREATE TABLE author (hash TEXT, author TEXT, PRIMARY KEY(hash,author))") ;
+	query = db.exec("CREATE TABLE keyword (hash TEXT, keyword TEXT, PRIMARY KEY(hash,keyword))") ;
 
 	return true ;
 }
@@ -88,6 +95,20 @@ QHash<QString,QString> QalfDb::getKeyInfo(QString& email) {
 		qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString() ;
 	}
 	return result ;	
+}
+
+QList<QString> QalfDb::getLicenses() {
+	QSqlQuery query(db) ;
+	query.exec("SELECT license FROM licenses") ;
+	qDebug() << "sql lastquery :" << query.executedQuery() ;
+	qDebug() << "sql lasterror :" << query.lastError() ; 
+	
+	QList<QString> result ;
+	
+	while(query.next()) {
+		result << query.value(0).toString() ;
+	}
+	return result ;
 }
 
 void QalfDb::close() {

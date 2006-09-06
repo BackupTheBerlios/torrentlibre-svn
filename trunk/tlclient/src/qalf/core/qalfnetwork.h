@@ -17,8 +17,12 @@
 
 #define SENDKEY          1
 #define KEYSTATUS        2
+#define GETLICENSES      3
+#define SENDTORRENT      4
 
 #define RESULTCODE       100
+
+#define UNKNOWNCOMMAND   200
 
 class QalfNetwork : public QObject {
 	Q_OBJECT
@@ -33,8 +37,9 @@ class QalfNetwork : public QObject {
 		QalfNetwork() ;
 		~QalfNetwork() ;
 		void sendKey(QString &username, QString &email, QString &publicKey) ;
-		void sendTorrent(QString &torrent,QString &signature, QString &title, QStringList &authors, QString &licence, QStringList &keywords, QString &category) ;
+		void sendTorrent(QString &moderatorEmail, QString &torrent,QString &signature, QString &title, QString &authors, QString &license, QString &keywords, QString &category) ;
 		ResultCode checkKeyStatus(QString& email, QString &key) ;
+		QList<QString> getLicenses() ;
 // 		bool checkKeyKnown(QString& email, QString &key) ;
 // 		bool checkKeyAuthorization(QString& email, QString &key) ;
 

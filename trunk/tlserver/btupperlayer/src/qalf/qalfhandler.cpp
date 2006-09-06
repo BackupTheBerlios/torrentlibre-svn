@@ -11,15 +11,19 @@
 
 #include "qalfhandler.h"
 #include "qalfdb.h"
+#include "qalftorrent.h"
+#include "qalfcrypto.h"
 
 QalfHandler::QalfHandler() : QObject() {
 
 }
 
 bool QalfHandler::recordKey(QString& name, QString& email, QString& key) {
+	QalfCrypto crypto ;
+	QString fingerPrint = crypto.importKey(key) ;
+	qDebug() << "fingerprint is " << fingerPrint ;
 	QalfDb * db = QalfDb::getDbObject() ;
-	return db->insertKey(email,name,key) ;
-	
+	return db->insertKey(email,name,fingerPrint) ;
 }
 
 QalfHandler::KeyStatus QalfHandler::keyStatus(QString &email) {
@@ -34,5 +38,35 @@ QalfHandler::KeyStatus QalfHandler::keyStatus(QString &email) {
 		} else {
 			return KeyTrusted ;
 		}
+	}
+}
+
+QList<QString> QalfHandler::getLicenses() {
+	QalfDb * db = QalfDb::getDbObject() ;
+	return db->getLicenses() ;
+}
+
+int QalfHandler::storeTorrent(QString &moderatorEmail, QString &signature, QString &title, QString &authors, QString &license, QString &keywords, QString &category, QByteArray &torrentData) {
+	// loading torrent in torrent structure
+	QalfTorrent torrent(torrentData) ;
+	
+	// getting hash and key
+	QString hash = torrent.hashToStr() ;
+	QalfDb * db = QalfDb::getDbObject() ;
+	
+	QHash<QString,QString> keyInfo = db->getKeyInfo(moderatorEmail) ;
+	if(!keyInfo.isEmpty() && keyInfo["trusted"] == "1") {
+		// verifying signature
+		QalfCrypto crypto ;
+		qDebug() << "keyInfo" << keyInfo["key"] ;
+		bool verification = crypto.verify(signature, hash, keyInfo["key"]) ;
+		qDebug() << "signature valid ?" << verification ;
+		// storing on hd
+		
+		// storing meta information in db
+		
+		return 1 ;
+	} else {
+		return 0 ;
 	}
 }

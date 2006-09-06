@@ -49,9 +49,8 @@ QString QalfCrypto::getPublicKey(QString &key) {
 	
 	QString publicKeyStr ;
 	char  * buffer = (char *) calloc(4096,sizeof(char)) ;
-	gpgme_data_rewind(keyData) ;
-// should be the following, but for a fucking mysterious reason, it doesn't want to work
-// 	gpgme_data_seek(keyData,0,SEEK_SET) ;
+// 	gpgme_data_rewind(keyData) ;
+	gpgme_data_seek(keyData,0,SEEK_SET) ;
 	gpgme_data_read(keyData,buffer,4096) ;
 
 	publicKeyStr += buffer ;
@@ -59,38 +58,74 @@ QString QalfCrypto::getPublicKey(QString &key) {
 }
 
 QString QalfCrypto::sign(QString &message, QString &key) {
+	gpgme_key_t gpgkey ;
+	gpgme_data_t signature ;
+	gpgme_data_t msg ;
+	gpgme_verify_result_t verification ;
+	gpgme_signature_t signatures ;
+ 	gpgme_error_t result  ;
+	char  * buffer ;
+		
 	gpgme_set_passphrase_cb(context,&passphrase_callback,NULL) ;
+	result = gpgme_set_protocol(context,GPGME_PROTOCOL_OpenPGP) ;
+	Q_ASSERT(gpgme_err_code(result) == GPG_ERR_NO_ERROR) ;
+	gpgme_set_armor(context,1) ;
+	gpgme_set_textmode(context,1) ;
+
 	gpgme_signers_clear(context) ;
+	result = gpgme_set_keylist_mode(context,GPGME_KEYLIST_MODE_LOCAL) ;
 
 	// retrieving key
-	gpgme_key_t gpgkey ;
-	gpgme_error_t result = gpgme_get_key(context, key.toLocal8Bit(),&gpgkey,true) ;
+	result = gpgme_get_key(context, key.toAscii().data(),&gpgkey,1) ;
 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
-	Q_ASSERT(gpgkey != NULL) ;
+	Q_ASSERT(gpgkey != 0) ;
 
 	// signing
 	result = gpgme_signers_add(context,gpgkey) ;
 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
-	gpgme_data_t signature ;
+	
 	result = gpgme_data_new(&signature);
 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
 
-	gpgme_data_t msg ;
-	result = gpgme_data_new_from_mem(&msg,message.toLocal8Bit(),message.size(),0) ;
+	int message_length = message.toAscii().size() ;
+	char * message_char = (char *) calloc(message_length+1,sizeof(char)) ;
+	memcpy(message_char,message.toAscii().data(),message_length) ;
+// 	printf("memcmp : %d\n",memcmp(message_char,"1fc36e1d41a93c1d79f6872198f426129320d287",message_length+1)) ;
+	result = gpgme_data_new_from_mem(&msg,message_char,message_length,0) ;
 	
+	gpgme_data_seek(signature,0,SEEK_SET) ;
+	gpgme_data_seek(msg,0,SEEK_SET) ;
 	
 	result = gpgme_op_sign(context, msg,signature, GPGME_SIG_MODE_DETACH) ;
-	Q_ASSERT(result == GPG_ERR_NO_ERROR || result == GPG_ERR_BAD_PASSPHRASE || result == GPG_ERR_CANCELED) ;
-
-	QString signatureStr ;
-	char  * buffer = (char *) calloc(1024,sizeof(char)) ;
-	gpgme_data_rewind(signature) ;
-// should be the following, but for a fucking mysterious reason, it doesn't want to work
+	Q_ASSERT(gpgme_err_code(result) == GPG_ERR_NO_ERROR || gpgme_err_code(result) == GPG_ERR_BAD_PASSPHRASE || gpgme_err_code(result) == GPG_ERR_CANCELED) ;
+	
 // 	gpgme_data_seek(signature,0,SEEK_SET) ;
-	gpgme_data_read(signature,buffer,1024) ;
+// 	gpgme_data_seek(msg,0,SEEK_SET) ;
+// 	
+// 	result = gpgme_op_verify (context, signature, msg , 0) ;
+// 	Q_ASSERT(gpgme_err_code(result) != GPG_ERR_INV_VALUE) ;
+// 	Q_ASSERT(gpgme_err_code(result) != GPG_ERR_NO_DATA) ;
+// 	Q_ASSERT(result == GPG_ERR_NO_ERROR) ;
+// 	
+// 	verification = gpgme_op_verify_result(context) ;
+// 	Q_ASSERT(verification != 0) ;
+// 	
+// 	signatures = verification->signatures ;
+// 	Q_ASSERT(verification->signatures != 0) ;
+// 	result = signatures->status ;
+// 	printf("status : %d\n",gpgme_err_code(result)) ;
+// 	printf("signature summary : %d\n",signatures->summary) ;
+// 	Q_ASSERT(signatures->summary == GPGME_SIGSUM_VALID | GPGME_SIGSUM_GREEN) ;
+// 	
+	QString signatureStr ;
+	buffer = (char *) calloc(2048,sizeof(char)) ;
+	gpgme_data_seek(signature,0,SEEK_SET) ;
+	gpgme_data_read(signature,buffer,2048) ;
 
 	signatureStr += buffer ;
 
+	qDebug() << "signature" << signatureStr ;
+	
 	gpgme_data_release(signature) ;
 	gpgme_key_unref(gpgkey) ;
 	gpgme_data_release(msg) ;
@@ -121,7 +156,7 @@ gpgme_error_t passphrase_callback(void *hook, const char *uid_int, const char *p
 		QFile file ;
 		if(file.open(fd,QIODevice::WriteOnly | QIODevice::Text)) {
 			QTextStream out(&file) ;
-			out << password << "\n" ;
+			out << password << '\n' ;
 			return GPG_ERR_NO_ERROR ;
 		}
 	}

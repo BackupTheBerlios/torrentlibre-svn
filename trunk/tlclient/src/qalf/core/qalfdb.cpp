@@ -36,12 +36,12 @@ QalfDb::~QalfDb() {
 
 bool QalfDb::create() {
 	QSqlQuery query;
-	query.exec("CREATE TABLE license (acronym TEXT PRIMARY KEY, name TEXT)") ;
+// 	query.exec("CREATE TABLE license (acronym TEXT PRIMARY KEY, name TEXT)") ;
 	query.exec("CREATE TABLE file (hash TEXT PRIMARY KEY, path TEXT UNIQUE, torrent TEXT UNIQUE, authors TEXT, license TEXT, used INT)") ;
 	query.exec("CREATE TABLE music (hash TEXT PRIMARY KEY, title TEXT, band TEXT, album TEXT, style TEXT, duration INT)") ;
 	query.exec("CREATE TABLE text (hash TEXT PRIMARY KEY, title TEXT, category TEXT, style TEXT, pages INT)") ;
 	query.exec("CREATE TABLE image (hash TEXT PRIMARY KEY, title TEXT, size TEXT, format TEXT, category TEXT)") ;
-
+	query.exec("CREATE TABLE author (hash TEXT, author TEXT, PRIMARY KEY(hash,author))") ;
 	return true ;
 }
 

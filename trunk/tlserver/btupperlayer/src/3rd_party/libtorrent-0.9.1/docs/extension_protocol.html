@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.8: http://docutils.sourceforge.net/" />
+<title></title>
+<meta name="author" content="Arvid Norberg, arvid&#64;rasterbar.com" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Arvid Norberg, <a class="last reference" href="mailto:arvid&#64;rasterbar.com">arvid&#64;rasterbar.com</a></td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first"><a name="table-of-contents">Table of contents</a></p>
+<ul class="simple">
+<li><a class="reference" href="#extension-protocol" id="id1" name="id1">extension protocol</a><ul>
+<li><a class="reference" href="#extension-list" id="id2" name="id2">extension_list</a></li>
+<li><a class="reference" href="#extended" id="id3" name="id3">extended</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="extension-protocol">
+<h1><a name="extension-protocol">extension protocol</a></h1>
+<p>The extension protocol is based on a protocol designed by Nolar, one of the
+developers of Azureus. Azureus never ended up using it though.</p>
+<p>To advertise to other clients that you support the extension protocol, the
+peer-id should end with the three ascii letters <tt class="docutils literal"><span class="pre">ext</span></tt>.</p>
+<p>Once support for the protocol is established, the client is supposed to
+support 2 new messages:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="83%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th>name</th>
+<th>id</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">extension_list</span></tt></td>
+<td>20</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">extended</span></tt></td>
+<td>21</td>
+</tr>
+</tbody>
+</table>
+<p>Both these messages are sent as any other bittorrent message, with a 4 byte
+length prefix and a single byte identifying the message.</p>
+<div class="section" id="extension-list">
+<h2><a name="extension-list">extension_list</a></h2>
+<p>The payload in the <tt class="docutils literal"><span class="pre">extension_list</span></tt> message is a bencoded dictionary mapping
+names of extensions to identification numbers of each extension. The only
+requirement on the identification numbers is that no extensions share the
+same, they have to be unique within the message.</p>
+<p>An example of how an <tt class="docutils literal"><span class="pre">extension_list</span></tt> message looks like:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="88%" />
+<col width="12%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">metadata</span></tt></td>
+<td>0</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">listen_port</span></tt></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>and in the encoded form:</p>
+<p><tt class="docutils literal"><span class="pre">d8:metadatai0e11:listen_porti1ee</span></tt></p>
+<p>This message is sent immediately after the handshake to any peer that supports
+the extension protocol.</p>
+<p>The IDs must be stored for every peer, becuase every peer may have different
+IDs for the same extension.</p>
+</div>
+<div class="section" id="extended">
+<h2><a name="extended">extended</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">extended</span></tt> message is the transport message for the extensions. The
+first 4 bytes of the message's payload is an ID that corresponds to one of
+the extensions the peer supports. As usual, it is encoded in big-endian.
+When you send an <tt class="docutils literal"><span class="pre">extended</span></tt> message, you should only use IDs you previously
+got from this peer's <tt class="docutils literal"><span class="pre">extension_list</span></tt>.</p>
+<p>The payload after this ID depends on the extension.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

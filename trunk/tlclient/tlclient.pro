@@ -74,4 +74,5 @@ SOURCES += tlclient.cpp \
            qalftorrentmaker.cpp \
            qalfnetwork.cpp
 
+DEFINES += _FILE_OFFSET_BITS=64 LARGEFILE_SOURCE
 LIBS += -lgpgme -lboost_filesystem -lboost_program_options -lboost_date_time -lboost_thread -Wl,-rpath /usr/local/lib -L/usr/local/lib -ltorrent

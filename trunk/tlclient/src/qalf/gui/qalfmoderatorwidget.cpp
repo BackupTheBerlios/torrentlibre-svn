@@ -25,7 +25,7 @@ QalfModeratorWidget::QalfModeratorWidget(QWidget * parent) : QWidget(parent) {
 
 	// file path
 	fileLabel = new QLabel(tr("File :")) ;
-	fileValue = new QLineEdit(QString("/home/alf/226.png")) ;
+	fileValue = new QLineEdit(QString("/home/alf/alf.png")) ;
 	openFileButton = new QPushButton(QIcon(":/icons/folder_open.png"),QString()) ;
 	connect(openFileButton,SIGNAL(clicked()),this,SLOT(openFile())) ;
 	fileLayout = new QHBoxLayout() ;
@@ -163,6 +163,19 @@ void QalfModeratorWidget::switchToKeyTrusted() {
 	openFileButton->setVisible(true) ;
 	infoBox->setVisible(true) ;
 	mediumBox->setVisible(true) ;
+	QList<QString> licenses ;
+	QalfNetwork client ;
+	try {
+		licenses = client.getLicenses() ;
+	} catch(QalfNetworkException &exception) {
+		QMessageBox::critical(this, tr("Server error"), tr("Error %1 : ").arg(exception.code())+exception.message(), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton) ;
+	}
+	licenseValue->clear() ;
+	licenseValue->addItem("") ;
+	QString license ;
+	foreach(license,licenses) {
+		licenseValue->addItem(license) ;
+	}
 }
 
 void QalfModeratorWidget::openFile() {
@@ -200,8 +213,13 @@ void QalfModeratorWidget::sendTorrent() {
 				QString key = config->getProperty(keyProp) ;
 				QString signature = crypto.sign(hash,key) ;
 				if(signature != "") {
-					QalfNetwork network ;
-		// 			network.sendTorrent(hash,signature,
+					QString emailProp("email") ;
+					QString email = config->getProperty(emailProp) ;
+					QString authors = authorsValue->text() ;
+					QString keywords = keywordsValue->text() ;
+					QString category("concert") ;
+					QalfNetwork client ;
+					client.sendTorrent(email,hash,signature, title, authors, license, keywords, category) ;
 				}
 			}
 		}

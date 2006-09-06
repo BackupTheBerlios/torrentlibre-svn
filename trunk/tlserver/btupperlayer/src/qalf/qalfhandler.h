@@ -28,6 +28,8 @@ class QalfHandler : public QObject {
 		QalfHandler() ;
 		bool recordKey(QString& name, QString& email, QString& key) ;
 		KeyStatus keyStatus(QString& email) ;
+		QList<QString> getLicenses() ;
+		int storeTorrent(QString &moderatorEmail, QString &signature, QString &title, QString &authors, QString &license, QString &keywords, QString &category, QByteArray &torrentData) ;
 };
 
 #endif // QalfHANDLER_H

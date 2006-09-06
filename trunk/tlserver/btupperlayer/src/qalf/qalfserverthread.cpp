@@ -26,6 +26,7 @@ void QalfServerThread::run() {
 	QByteArray packet = getPacket(tcpSocket) ;
 	QByteArray answer = parse(packet) ;
 	sendPacket(tcpSocket,answer) ;
+	tcpSocket.waitForDisconnected(5000) ;
 	tcpSocket.disconnectFromHost();
 // 	tcpSocket.waitForDisconnected();
 }
@@ -113,6 +114,29 @@ QByteArray QalfServerThread::parse(QByteArray &packet) {
 			out << recordKey ;
 			break ;
 		}
+		case (quint16)GETLICENSES: {
+			out << command ;
+			QList<QString> licenses = handler.getLicenses() ;
+			QString license ;
+			foreach(license, licenses) {
+				out << license ;
+			}
+			break ;
+		}
+		case (quint16)SENDTORRENT: {
+			qDebug() << "sendTorrent" ;
+			QString moderatorEmail, signature, title, authors, license, keywords, category ;
+			QByteArray torrent ;
+			in >> moderatorEmail >> signature >> title >> authors >> license >> keywords >> category >> torrent ;
+			int error_code = handler.storeTorrent(moderatorEmail, signature, title, authors, license, keywords, category, torrent) ;
+			qDebug() << "error code " << error_code ;
+			command = RESULTCODE ;
+			out << command ;
+			break ;
+		}
+		default:
+			out << UNKNOWNCOMMAND ;
+		break ;
 	}
 	return answer ;
 }

@@ -17,13 +17,17 @@
 #include <QTcpSocket>
 #include <QtDebug>
 
-#define SENDKEY 1
-#define KEYSTATUS 2
+#define SENDKEY          1
+#define KEYSTATUS        2
+#define GETLICENSES      3
+#define SENDTORRENT      4
 
 #define RESULTCODE       100
 #define KEYUNKNOWN       101
 #define KEYUNTRUSTED     102
 #define KEYTRUSTED       103
+
+#define UNKNOWNCOMMAND   200
 
 class QalfServerThread : public QThread {
 	Q_OBJECT
