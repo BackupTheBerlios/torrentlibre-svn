@@ -57,7 +57,9 @@ QString QalfTorrentMaker::createTorrent(QString &filename, QString &torrentFilen
 		t.set_piece_size(piece_size);
 
 		storage st(t, full_path.branch_path());
-		char const * trackerStr = tracker.toAscii() ;
+		QByteArray trackerBA = tracker.toAscii() ;
+		trackerBA.resize(tracker.size()+1) ;
+		char const * trackerStr = trackerBA.data() ;
 		t.add_tracker(trackerStr);
 
 		// calculate the hash for all pieces

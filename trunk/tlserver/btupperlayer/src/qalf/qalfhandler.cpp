@@ -68,10 +68,10 @@ int QalfHandler::storeTorrent(QString &moderatorEmail, QString &signature, QStri
 			QString torrentFilename = config->getProperty(torrentDirProp)+QString(QDir::separator())+hash+".torrent" ;
 		
 			QFile file(torrentFilename) ;
-			if (!file.open(QIODevice::WriteOnly))
+			if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
 				return CANNOTSTORETORRENT;
 
-			QDataStream out(&file);
+			QTextStream out(&file);
 			out << torrentData ;
 			
 			// storing meta information in db
